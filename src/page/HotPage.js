@@ -191,7 +191,6 @@ class HotTab extends React.Component{
           // 用户开始滚动触发的方法，开始滚动才能下拉刷新
           onMomentumScrollBegin={()=>{
             this.canLoadMore = true; //fix 初始化时滚动调用onEndReached的问题
-            console.log('---------onMomentumScrollBegin---------')
           }}
         />
       </View>
