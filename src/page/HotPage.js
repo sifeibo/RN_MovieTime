@@ -186,7 +186,7 @@ class HotTab extends React.Component{
               }
             },100);
           }}
-          // 可见列表长度与底部的距离的比值
+          // 可见列表长度与底部的距离的比值  
           onEndReachedThreshold={0.1}
           // 用户开始滚动触发的方法，开始滚动才能下拉刷新
           onMomentumScrollBegin={()=>{
