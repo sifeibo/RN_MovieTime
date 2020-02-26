@@ -14,7 +14,7 @@ import {
 const {width} = Dimensions.get('window')
 
 
-export default class HotPage extends React.Component{
+export default class HotItem extends React.Component{
     render(){
         const {item} = this.props;
         if(!item) return null;
@@ -39,18 +39,18 @@ export default class HotPage extends React.Component{
 const styles = StyleSheet.create({
     movieContainer:{
       flexDirection: 'column',
-      width: 0.3 * width,
-      marginRight: 0.02 * width,
+      width: 0.28 * width,
+      marginRight: 0.03 * width,
       marginTop: 0.035 * width
 
     },
     // x+3y+z+3box=width
-    // box=0.3 x=0.03 y=0.02 z=0.01
+    // box=0.28 x=0.032 y=0.021 z=0.01
     // 宽高比2 : 3
     movieImg:{
-      width: 0.3 * width,
-      height: 0.3 * width * 4/3,
-      borderRadius: 4,
+      width: 0.28 * width,
+      height: 0.28 * width * 4/3,
+      borderRadius: 3,
       borderColor:'gray'
     },
     movieTitle:{

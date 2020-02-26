@@ -3,7 +3,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 
 import WelcomePage from '../page/WelcomePage'
 import HomePage from '../page/HomePage'
-import DetailPage from '../page/DetailPage'
+import MovieDetailPage from '../page/MovieDetailPage'
 import DataStoreDemo from '../page/DataStoreDemo'
 import {connect} from 'react-redux'
 import {createReactNavigationReduxMiddleware, createReduxContainer} from 'react-navigation-redux-helpers'
@@ -28,8 +28,8 @@ const MainNavigator = createStackNavigator({
             headerShown: false //可以通过这个属性禁用stack的bar
         }
     },
-    DetailPage:{
-        screen: DetailPage,
+    MovieDetailPage:{
+        screen: MovieDetailPage,
         navigationOptions:{
            
         }

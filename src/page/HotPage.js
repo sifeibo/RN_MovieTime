@@ -143,7 +143,9 @@ class HotTab extends React.Component{
     return <HotItem 
         item={item}
         onSelect={()=>{
-
+          NavigationUtil.movePage({
+            information: item
+          }, 'MovieDetailPage')
         }}
       />
   }
@@ -212,8 +214,8 @@ const HotTabPage = connect(mapStateToProps,mapDispatchToProps)(HotTab)
 
 const styles = StyleSheet.create({
     container:{
-        flex: 1,
-        backgroundColor: '#F5FCFF',
+      flex: 1,
+      backgroundColor: '#F5FCFF',
     },
     topTabView:{
       flex:1
@@ -229,7 +231,7 @@ const styles = StyleSheet.create({
       fontSize: 14,
     },
     listContainer:{
-      paddingLeft: 0.03 * width
+      paddingLeft: 0.05 * width
     },
     indicatorContainer:{
       alignItems:'center'
