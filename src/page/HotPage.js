@@ -68,7 +68,10 @@ class HotPage extends React.Component{
   render(){
     const TopTabNavigator = this._topTabNavigator();
     return (
+      
       <View style={styles.topTabView}>
+        <View style={styles.statusBar}>
+        </View>
         <TopTabNavigator/>
       </View>
     )
@@ -144,7 +147,7 @@ class HotTab extends React.Component{
         item={item}
         onSelect={()=>{
           NavigationUtil.movePage({
-            information: item
+            id: item.id
           }, 'MovieDetailPage')
         }}
       />
@@ -216,6 +219,11 @@ const styles = StyleSheet.create({
     container:{
       flex: 1,
       backgroundColor: '#F5FCFF',
+      
+    },
+    statusBar:{
+      height:20,
+      backgroundColor:'#476'
     },
     topTabView:{
       flex:1

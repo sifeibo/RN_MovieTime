@@ -25,13 +25,13 @@ const MainNavigator = createStackNavigator({
     HomePage:{
         screen: HomePage,
         navigationOptions:{
-            headerShown: false //可以通过这个属性禁用stack的bar
+            headerShown: false, //可以通过这个属性禁用stack的bar
         }
     },
     MovieDetailPage:{
         screen: MovieDetailPage,
         navigationOptions:{
-           
+            headerShown: false, //可以通过这个属性禁用stack的bar
         }
     },DataStoreDemo:{
         screen: DataStoreDemo,
