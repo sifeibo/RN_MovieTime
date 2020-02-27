@@ -14,6 +14,7 @@ import {
 import { ScrollView } from 'react-native-gesture-handler';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import NavigationBar from '../common/NavigationBar'
 
 // 获取设备屏幕尺寸，单位 dp
 const {width} = Dimensions.get('window')
@@ -30,6 +31,7 @@ const arrToString = function(arr){
 }
 
 export default class HotItem extends React.Component{
+    // 渲染演员列表
     getActors(casts){
         let actors = [];
         for(let i=0 , len=casts.length; i < len; i++) {
@@ -45,6 +47,7 @@ export default class HotItem extends React.Component{
         }
         return actors;
     }
+    // 渲染频道列表
     getTags(tags){
         let tag = [];
         for(let i=0 , len=tags.length; i < len; i++) {
@@ -60,6 +63,7 @@ export default class HotItem extends React.Component{
         }
         return tag;
     }
+    // 渲染头部组装
     getParallaxRenderConfig(data){
         let config={};
         let introduction = arrToString(data.countries) + arrToString(data.genres) + 
@@ -136,6 +140,7 @@ export default class HotItem extends React.Component{
 
                     <Text style={styles.smallTitle1}>简介</Text>
                     <View style={styles.movieIntroduction}>
+                        {/* numberOfLines={4} ellipsizeMode={'clip'} */}
                         <Text numberOfLines={4} ellipsizeMode={'clip'} style={styles.introFont}>
                            {data.summary}
                         </Text>
@@ -249,8 +254,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginRight: 20,
     flexDirection:'row',
-    
-
    },
    movieIntroduction:{
     

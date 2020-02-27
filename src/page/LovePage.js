@@ -7,15 +7,27 @@ import {
 } from 'react-native';
 import {connect} from 'react-redux'
 import actions from '../action/index'
+import NavigationBar from '../common/NavigationBar'
 
 
 
 class LovePage extends React.Component{
   render(){
+    let statusBar={
+      backgroundColor: '#476',
+      barStyle: 'light-content',
+      hidden: false
+    }
+    let navigationBar = <NavigationBar
+      title={'我的收藏'}
+      statusBar = {statusBar}
+      style = {{backgroundColor: '#476'}}
+    />
     const {navigation} = this.props;
     // console.log('tab的导航', navigation);
     return (
       <View style={styles.container}>
+        {navigationBar}
           <Text style={styles.welcome}>LovePage</Text>
           <Button  title='改变主题颜色'
             onPress={()=>{
@@ -31,9 +43,7 @@ class LovePage extends React.Component{
 const styles = StyleSheet.create({
     container:{
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+
     },
     welcome:{
         fontSize: 20,

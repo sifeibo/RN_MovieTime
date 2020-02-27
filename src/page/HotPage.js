@@ -18,6 +18,7 @@ import {connect} from 'react-redux'
 import actions from '../action/index'
 import NavigationUtil from '../navigator/NavigationUtil'
 import HotItem from '../common/HotItem'
+import NavigationBar from '../common/NavigationBar'
 
 // 豆瓣api网址
 const URL = 'https://api.douban.com/v2/movie/'
@@ -67,11 +68,20 @@ class HotPage extends React.Component{
   }
   render(){
     const TopTabNavigator = this._topTabNavigator();
+    let statusBar={
+      backgroundColor: '#476',
+      barStyle: 'light-content',
+      hidden: false
+    }
+    let navigationBar = <NavigationBar
+      statusBar = {statusBar}
+      title = {'榜单'}
+      style = {{backgroundColor: '#476'}}
+    />
     return (
-      
+   
       <View style={styles.topTabView}>
-        <View style={styles.statusBar}>
-        </View>
+           {navigationBar}
         <TopTabNavigator/>
       </View>
     )
@@ -221,19 +231,18 @@ const styles = StyleSheet.create({
       backgroundColor: '#F5FCFF',
       
     },
-    statusBar:{
-      height:20,
-      backgroundColor:'#476'
-    },
     topTabView:{
       flex:1
     },
     tabStyle:{
-      minWidth: 0.4 * width
+      justifyContent:'flex-start',
+      height: 35,
+      paddingTop: -50
     },
     indicatorStyle:{
       height: 2,
-      backgroundColor:'#F5FCFF'
+      backgroundColor:'#F5FCFF',
+     
     },
     labelStyle:{
       fontSize: 14,
