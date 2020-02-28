@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{Component} from 'react';
 import {
   StyleSheet,
   View,
@@ -8,8 +8,9 @@ import {
 import NavigationBar from '../common/NavigationBar'
 import Feather from 'react-native-vector-icons/Feather'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import ViewUtil from '../util/ViewUtil';
 
-class MyPage extends React.Component{
+class MyPage extends Component{
   getRightButton(){
     return <View style={{flexDirection: 'row'}}>
       <TouchableOpacity onPress={() => {
@@ -25,6 +26,7 @@ class MyPage extends React.Component{
       </TouchableOpacity>
     </View>
   }
+  onBack(){}
   getLeftButton(callBack){
     return <TouchableOpacity style={{padding: 8,paddingLeft:12}} onPress={callBack}>
       <Ionicons 
@@ -44,7 +46,7 @@ class MyPage extends React.Component{
       statusBar = {statusBar}
       style = {{backgroundColor: '#476'}}
       rightButton = {this.getRightButton()}
-      leftButton = {this.getLeftButton()}
+      leftButton = {ViewUtil.getLeftBackButton(this.onBack())}
     />
     return (
       <View style={styles.container}>

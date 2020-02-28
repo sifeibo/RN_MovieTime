@@ -1,21 +1,25 @@
 import React from 'react';
-import {BackHandler} from 'react-native'
 import {NavigationActions} from 'react-navigation'
 import {connect} from 'react-redux'
 
 
 import NavigationUtil from '../navigator/NavigationUtil';
 import DynamicTabNavigator from '../navigator/DynamicTabNavigator'
+import BackPress from '../common/BackPress'
 
 
 class HomePage extends React.Component{
+  constructor(props){
+    super(props);
+    this.backPress = new BackPress({backPress: this.onBackPress()});
+  }
   // 装载监听
   componentDidMount(){
-    BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
+    this.backPress.componentDidMount();
   }
   // 卸载监听
   componentWillUnmount(){
-    BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
+    this.backPress.componentWillUnmount();
   }
 
   // 处理 Android 中的物理返回键

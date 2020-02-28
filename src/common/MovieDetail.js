@@ -15,6 +15,11 @@ import { ScrollView } from 'react-native-gesture-handler';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import NavigationBar from '../common/NavigationBar'
+import AntDesign from 'react-native-vector-icons/AntDesign'
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import NavigationUtil from '../navigator/NavigationUtil'
+import BackPress from '../common/BackPress'
+
 
 // 获取设备屏幕尺寸，单位 dp
 const {width} = Dimensions.get('window')
@@ -31,6 +36,22 @@ const arrToString = function(arr){
 }
 
 export default class HotItem extends React.Component{
+    constructor(props){
+        super(props);
+        this.backPress = new BackPress({backPress: () => this.onBackPress()});
+    }
+    componentDidMount(){
+        this.backPress.componentDidMount();
+    }
+    // 卸载监听
+    componentWillUnmount(){
+        this.backPress.componentWillUnmount();
+    }
+    // 处理 Android 中的物理返回键
+    onBackPress(){
+        NavigationUtil.goBack(this.props.navigation);
+        return true;
+    }
     // 渲染演员列表
     getActors(casts){
         let actors = [];
@@ -64,7 +85,7 @@ export default class HotItem extends React.Component{
         return tag;
     }
     // 渲染头部组装
-    getParallaxRenderConfig(data){
+    getParallaxRenderConfig(data,navigation){
         let config={};
         let introduction = arrToString(data.countries) + arrToString(data.genres) + 
         '上映时间：'+ arrToString(data.pubdates) + '片长：' + arrToString(data.durations)
@@ -105,18 +126,37 @@ export default class HotItem extends React.Component{
         );
         // 固定的按钮
         config.renderFixedHeader=() => (
-            <View key="fixed-header" style={styles.fixedSection}>
-              <Text style={styles.fixedSectionText}
-                    onPress={() => this.refs.ListView.scrollTo({ x: 0, y: 0 })}>
-                Scroll to top
-              </Text>
+            <View key="fixed-header">
+                <TouchableOpacity style={{position: 'absolute',bottom: -3,left: 20,width:50,height:50, justifyContent:'center'}} 
+                onPress={() => {NavigationUtil.goBack(navigation)}} >
+                    <Ionicons 
+                        name = {'ios-arrow-back'}
+                        size = {28}
+                        style={{color: 'white'}}/>
+                </TouchableOpacity>
+                <TouchableOpacity style={{position: 'absolute',bottom: -2,right: 60,width:50,height:50,alignItems:'center',justifyContent:'center'}} 
+                onPress={() => {}}>
+                        <AntDesign 
+                        name={'staro'}
+                        size={24}
+                        style={{color: 'white'}}
+                        />
+                </TouchableOpacity>
+                 <TouchableOpacity style={{position: 'absolute',bottom: -2,right: 10,width:50,height:50,alignItems:'center',justifyContent:'center'}} 
+                 onPress={() => {}}>
+                        <AntDesign 
+                        name={'ellipsis1'}
+                        size={26}
+                        style={{color: 'white'}}
+                        />
+                </TouchableOpacity>
             </View>
           );
         return config;
     }
     render(){
-        const {data} = this.props;
-        const renderConfig = this.getParallaxRenderConfig(data);
+        const {data, navigation} = this.props;
+        const renderConfig = this.getParallaxRenderConfig(data,navigation);
         const tag = this.getTags(data.tags);
         const actors = this.getActors(data.casts);
         return (
@@ -182,9 +222,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   fixedSection: {
-    position: 'absolute',
-    bottom: 10,
-    right: 10
+    
   },
   fixedSectionText: {
     color: '#999',
@@ -225,7 +263,7 @@ const styles = StyleSheet.create({
    },
    briefIntro:{
     fontSize: 12,
-    marginTop: 5,
+    marginTop: 6,
     color:'white'
    },
 
@@ -234,7 +272,7 @@ const styles = StyleSheet.create({
    detailBottom:{
     flexDirection:'column',
     paddingLeft: 15,
-    paddingRight: 15
+
 
    },
    smallTitle1:{
@@ -256,7 +294,7 @@ const styles = StyleSheet.create({
     flexDirection:'row',
    },
    movieIntroduction:{
-    
+    paddingRight: 15
    },
    introFont:{
        color:'white',
