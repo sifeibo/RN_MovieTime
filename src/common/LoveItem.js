@@ -30,10 +30,10 @@ export default class HotItem extends React.Component{
                 <View style={styles.movieContainer}>
                     <Image
                         style={styles.movieImg}
-                        source={{uri: item.image}}
+                        source={{uri: item.movieImage}}
                     />
-                    <Text  ellipsizeMode='tail' numberOfLines= {1} style={styles.movieTitle}>{item.title}</Text>
-        
+                    <Text  ellipsizeMode='tail' numberOfLines= {1} style={styles.movieTitle}>{item.movieName}</Text>
+                    <Text  ellipsizeMode='tail' numberOfLines= {2} style={styles.movieIntro}>{item.content}</Text>
                     <View style={styles.movieStar}>
                     </View>
                 </View>
@@ -46,7 +46,11 @@ export default class HotItem extends React.Component{
 const styles = StyleSheet.create({
     movieContainer:{
       flexDirection: 'row',
-      height: 50
+      height: 0.28 * width * 4/3 + 20,
+      paddingLeft:15,
+      alignItems:'center',
+      borderColor: '#d3d3d3',
+      borderBottomWidth: 0.3,
     },
     // x+3y+z+3box=width
     // box=0.28 x=0.032 y=0.021 z=0.01
@@ -58,8 +62,18 @@ const styles = StyleSheet.create({
       borderColor:'gray'
     },
     movieTitle:{
-      marginTop: 0.01 * width,
-      fontSize: 0.035 * width,
+      width: 0.8 * width,
+      fontSize: 17,
       fontWeight: 'bold',
+      position: 'absolute',
+      left: 0.28 * width + 26,
+      top: 15
+    },
+    movieIntro:{
+      fontSize: 13.5,
+      width: 200,
+      position: 'absolute',
+      left: 0.28 * width + 26,
+      bottom: 20
     }
 });
