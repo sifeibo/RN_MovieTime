@@ -2,6 +2,7 @@ import React from 'react';
 import {
   StyleSheet,
   View,
+  FlatList,
   Text,
   Button
 } from 'react-native';
@@ -18,23 +19,46 @@ class LovePage extends React.Component{
       barStyle: 'light-content',
       hidden: false
     }
-    let navigationBar = <NavigationBar
-      title={'我的收藏'}
-      statusBar = {statusBar}
-      style = {{backgroundColor: '#476'}}
-    />
-    const {navigation} = this.props;
-    // console.log('tab的导航', navigation);
+    let navigationBar = <NavigationBar title={'我的收藏'} statusBar = {statusBar} style = {{backgroundColor: '#476'}} />
+    let items = [{movieName: '千与千寻',
+      movieImage: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p2557573348.jpg',
+      movieid: '1291561',
+      star: 9.3,
+      content: '日本 /剧情 动画 奇幻/ 上映时间: 2001-7-20(日本)日本 /剧情 动画 奇幻/ 上映时间: 2001-7-20(日本)'},
+      {movieName: '美丽人生',
+      movieImage: 'http://img3.doubanio.com/view/photo/s_ratio_poster/public/p2578474613.jpg',
+      movieid: '1292063',
+      star: 9.5,
+      content: '日本 /剧情 动画 奇幻/ 上映时间: 2001-7-20(日本)日本 /剧情 动画 奇幻/ 上映时间: 2001-7-20(日本)'}]
     return (
+      
       <View style={styles.container}>
         {navigationBar}
-          <Text style={styles.welcome}>LovePage</Text>
-          <Button  title='改变主题颜色'
+        <FlatList
+          style={styles.listContainer}
+          data={items}
+          numColumns ={1} // 一行1个
+          renderItem={this.renderItem}
+          keyExtractor={item=>'' + item.id}
+          refreshControl={
+            <RefreshControl
+              title={'Loading'}
+              titleColor={'#476'}
+              colors = {['#476']}
+              refreshing = {store.isLoading}
+              onRefresh={()=>this.loadData()}
+              tintColor={'#476'}
+            />
+          }
+        />
+
+
+          {/* <Button  title='改变主题颜色'
             onPress={()=>{
               console.log(this.props)
               this.props.onThemeChangeColor('red')
             }}
-          />
+          /> */}
       </View>
     );
   }
