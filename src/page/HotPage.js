@@ -36,7 +36,7 @@ const {width, height} = Dimensions.get('window')
 class HotPage extends React.Component{
   constructor(props){
     super(props);
-    this.topTabNames =  ['Top250','热映', '即将上映']
+    this.topTabNames =  ['Top250','北美票房榜','新片榜','口碑榜','热映', '即将上映']
   }
   _topTabNavigator(){
     const topTabs={};
@@ -146,6 +146,12 @@ class HotTab extends React.Component{
         return URL + 'in_theaters' + apikey;
       case '即将上映':
         return URL + 'coming_soon' + apikey;
+      case '北美票房榜':
+        return URL + 'us_box' + apikey;
+      case '口碑榜':
+        return URL + 'weekly' + apikey;
+      case '新片榜':
+        return URL + 'new_movies' + apikey;
       default:
         return false;
     }
@@ -180,6 +186,7 @@ class HotTab extends React.Component{
           data={store.items}
           numColumns ={3} // 一行3个
           renderItem={this.renderItem}
+          initialNumToRender={9}
           keyExtractor={item=>'' + item.id}
           refreshControl={
             <RefreshControl

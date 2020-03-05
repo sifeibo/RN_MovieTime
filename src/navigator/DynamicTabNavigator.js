@@ -4,22 +4,38 @@ import { createBottomTabNavigator, BottomTabBar } from 'react-navigation-tabs';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Entypo from 'react-native-vector-icons/Entypo'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import {connect} from 'react-redux'
 
 import HotPage from '../page/HotPage'
 import TrendingPage from '../page/TrendingPage'
+import RootPage from '../page/RootPage'
 import MyPage from '../page/MyPage'
 import LovePage from '../page/LovePage'
 import NavigationUtil from './NavigationUtil';
 
 // 底部导航
 const TABS = {
+    RootPage: {
+    // 必须填写的路由配置信息
+      screen: RootPage,
+      // 设置标题栏相应属性
+      navigationOptions: {
+        tabBarLabel:'首页',
+        tabBarIcon:({tintColor,focused})=>(
+             <MaterialIcons
+             name={'movie-filter'}
+             size={28}
+             style={{color: tintColor}}/>
+        )
+    }
+    },
     HotPage: {
     // 必须填写的路由配置信息
       screen: HotPage,
       // 设置标题栏相应属性
       navigationOptions: {
-        tabBarLabel:'火热',
+        tabBarLabel:'榜单',
         tabBarIcon:({tintColor,focused})=>(
              <FontAwesome5 
              name={'hotjar'}
@@ -101,10 +117,10 @@ class DynamicTabNavigator extends React.Component{
         console.disableYellowBox = true;
     }
     _tabNavigator(){
-        const {HotPage, LovePage,TrendingPage, MyPage} = TABS;
+        const {HotPage, LovePage,TrendingPage, MyPage,RootPage} = TABS;
         // 这里就可以根据需要显示想要显示的tab 其他可以隐藏
         const tabs = {HotPage, LovePage, MyPage}
-        HotPage.navigationOptions.tabBarLabel = '最热'; //动态配置属性
+        HotPage.navigationOptions.tabBarLabel = '榜单'; //动态配置属性
         // 如果存在就不要重新创建
         if(!this.tabNavigator){
             this.tabNavigator =createAppContainer(createBottomTabNavigator(

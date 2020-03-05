@@ -13,6 +13,7 @@ export function onLoadHotData(storeName, url){
         let dataStore = new DataStore();
         dataStore.fetchData(url)
             .then(data=>{
+                // console.log(data)
                 handleData(dispatch, storeName, data)
                 
             }).catch(error => {
@@ -48,14 +49,8 @@ export function onLoadMoreHotData(storeName, pageIndex, dataArray=[], url, callB
         dataStore.fetchData(nexturl)
             .then(data=>{
                 let items = data.data.data.subjects
-                if(items.length!=0){
-                    dispatch({
-                        type: Types.HOT_LOAD_MORE_SUCCESS,
-                        storeName: storeName,
-                        pageIndex: pageIndex,
-                        items: [...dataArray, ...items]
-                    })
-                }else{
+
+                if (items[0].subject !== undefined){
                     if(typeof callBack === 'function'){
                         console.log('调用回调')
                         callBack('no more')
@@ -66,7 +61,27 @@ export function onLoadMoreHotData(storeName, pageIndex, dataArray=[], url, callB
                         storeName: storeName,
                         pageIndex: --pageIndex,
                     })
-                }
+                }else{
+                    if(items.length!=0){
+                        dispatch({
+                            type: Types.HOT_LOAD_MORE_SUCCESS,
+                            storeName: storeName,
+                            pageIndex: pageIndex,
+                            items: [...dataArray, ...items]
+                        })
+                    }else{
+                        if(typeof callBack === 'function'){
+                            console.log('调用回调')
+                            callBack('no more')
+                        }
+                        dispatch({
+                            type: Types.HOT_LOAD_MORE_FAIL,
+                            error: 'no more',
+                            storeName: storeName,
+                            pageIndex: --pageIndex,
+                        })
+                    }
+                }              
             }).catch(error => {
                 console.log(error);
                 dispatch({
@@ -81,10 +96,24 @@ export function onLoadMoreHotData(storeName, pageIndex, dataArray=[], url, callB
 }
 
 function handleData(dispatch, storeName, data){
-    dispatch({
-        type:Types.HOT_LOAD_SUCCESS,
-        items: data.data.data.subjects,
-        storeName: storeName,
-        pageIndex: 0
-    })
+    let subjects = data.data.data.subjects
+    if (subjects[0].subject !== undefined){
+        // 将每个数组的对象中的一个元素提取出来形成新的数组
+        let arr = subjects.map(v=>v.subject)
+        console.log(arr);
+        
+        dispatch({
+            type:Types.HOT_LOAD_SUCCESS,
+            items: arr,
+            storeName: storeName,
+            pageIndex: 0
+        })
+    }else{
+        dispatch({
+            type:Types.HOT_LOAD_SUCCESS,
+            items: subjects,
+            storeName: storeName,
+            pageIndex: 0
+        })
+    }
 }
