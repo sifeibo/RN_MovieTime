@@ -100,7 +100,6 @@ function handleData(dispatch, storeName, data){
     if (subjects[0].subject !== undefined){
         // 将每个数组的对象中的一个元素提取出来形成新的数组
         let arr = subjects.map(v=>v.subject)
-        console.log(arr);
         
         dispatch({
             type:Types.HOT_LOAD_SUCCESS,

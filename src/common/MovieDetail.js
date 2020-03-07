@@ -3,27 +3,24 @@ import {
   StyleSheet,
   View,
   Text,
-  FlatList,
-  Button,
   Image,
-  RefreshControl,
   Dimensions,
   TouchableOpacity,
-  RecyclerViewBackedScrollViewComponent
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import NavigationBar from '../common/NavigationBar'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import NavigationUtil from '../navigator/NavigationUtil'
 import BackPress from '../common/BackPress'
+import Star from '../common/Star'
+import { px } from '../util/device';
 
 
 // 获取设备屏幕尺寸，单位 dp
 const {width} = Dimensions.get('window')
-const PARALLAX_HEADER_HEIGHT = 250;
+const PARALLAX_HEADER_HEIGHT = px(510);
 const STICKY_HEADER_HEIGHT = 70;
 
 
@@ -56,15 +53,25 @@ export default class HotItem extends React.Component{
     getActors(casts){
         let actors = [];
         for(let i=0 , len=casts.length; i < len; i++) {
-            actors.push(
-                <View style={styles.actorView} key={i}>
-                    <Image
-                    style={styles.actorImg}
-                    source={{uri:casts[i].avatars.large}}
-                    />
-                    <Text style={styles.briefIntro}>{casts[i].name}</Text>
-                </View>
-            ) 
+            if (casts[i].avatars===null){
+                actors.push(
+                    <View style={styles.actorView} key={i}>
+                        <View style={styles.actorImg1}>
+                        </View>
+                        <Text style={styles.introFont1}>{casts[i].name}</Text>
+                    </View>
+                ) 
+            }else{
+                actors.push(
+                    <View style={styles.actorView} key={i}>
+                        <Image
+                        style={styles.actorImg}
+                        source={{uri:casts[i].avatars.large}}
+                        />
+                        <Text style={styles.introFont1}>{casts[i].name}</Text>
+                    </View>
+                ) 
+            }
         }
         return actors;
     }
@@ -77,8 +84,8 @@ export default class HotItem extends React.Component{
                     <Text style={styles.briefIntro}>{tags[i]}</Text>
                     <MaterialIcons
                         name={'keyboard-arrow-right'}
-                        size={20}
-                        style={{color: 'white',marginTop:4}}/>
+                        size={px(41)}
+                        style={{color: 'white',marginTop:px(6.8)}}/>
                 </View>
             ) 
         }
@@ -89,7 +96,6 @@ export default class HotItem extends React.Component{
         let config={};
         let introduction = arrToString(data.countries) + arrToString(data.genres) + 
         '上映时间：'+ arrToString(data.pubdates) + '片长：' + arrToString(data.durations)
-        console.log(data)
         // 背景
         config.renderBackground=()=>(
             <View key="background">
@@ -114,6 +120,7 @@ export default class HotItem extends React.Component{
             <View style={styles.movieInform}>
                 <Text numberOfLines={1} ellipsizeMode={'tail'} style={styles.bigTitle}>{data.title}</Text>
                 <Text numberOfLines={1} ellipsizeMode={'tail'} style={styles.smallTitle}>{data.title}（{data.year}）</Text>
+                <Star value={data.rating.average} size={px(26)} margin={px(1)} />
                 <Text numberOfLines={3} ellipsizeMode={'tail'} style={styles.briefIntro}>{introduction}</Text>
             </View>
             </View>
@@ -218,52 +225,46 @@ const styles = StyleSheet.create({
   },
   stickySectionText: {
     color: 'white',
-    fontSize: 20,
-    margin: 10,
+    fontSize: px(40),
+    margin: px(20),
   },
-  fixedSection: {
-    
-  },
-  fixedSectionText: {
-    color: '#999',
-    fontSize: 20
-  },
+
 
 
 
    detailHead:{
     flexDirection: 'row',
     marginTop: 80,
-    paddingBottom: 0.1 * width,
-    paddingRight: 15,
-    paddingLeft:15
+    paddingBottom: px(75),
+    paddingLeft: px(32)
    },
    movieImg:{
-    width: 0.28 * width,
-    height: 0.28 * width * 4/3,
+    width: px(210),
+    height: px(280),
     borderRadius: 3,
     borderColor:'gray',
    },
    movieInform:{
     flexDirection: 'column',
-    marginLeft:  0.05 * width,
-    width: 0.57 * width
+    marginLeft:  px(25),
+    width: width - px(296),
    },
    bigTitle:{
-    fontSize: 20,
+    fontSize: px(42),
     fontWeight: 'bold',
-    marginTop: 5,
+    marginTop: px(8),
     color:'white'
    },
    smallTitle:{
-    fontSize: 16,
+    fontSize: px(34),
     fontWeight: 'bold',
-    marginTop: 8,
+    marginTop: px(16),
+    marginBottom: px(10),
     color:'white'
    },
    briefIntro:{
-    fontSize: 12,
-    marginTop: 6,
+    fontSize: px(25),
+    marginTop: px(10),
     color:'white'
    },
 
@@ -271,48 +272,58 @@ const styles = StyleSheet.create({
 
    detailBottom:{
     flexDirection:'column',
-    paddingLeft: 15,
-
+    paddingLeft: px(32),
 
    },
    smallTitle1:{
-    fontSize: 16,
+    fontSize: px(34),
     fontWeight: 'bold',
-    marginTop: 15,
-    marginBottom: 10,
+    marginTop: px(35),
+    marginBottom: px(25),
     color:'white'
    },
    tagView:{
-       height: 30,
+       height: px(60),
    },
    movieTag:{
     backgroundColor:'rgba(52, 52, 52, 0.5)',
-    paddingLeft: 10,
-    paddingRight: 5,
-    borderRadius: 20,
-    marginRight: 20,
+    paddingLeft: px(21),
+    paddingRight: px(10),
+    borderRadius: px(40),
+    marginRight: px(41),
     flexDirection:'row',
    },
    movieIntroduction:{
-    paddingRight: 15
+    paddingRight: px(32)
    },
    introFont:{
-       color:'white',
-       fontSize: 14,
+    color:'white',
+    fontSize: px(30),
    },
    tagView1:{
-    height: 110,
+    height: px(200),
    },
    actorView:{
     flexDirection: 'column',
     alignItems:'center',
-    marginRight: 20
+    marginRight: px(40)
    },
    actorImg:{
-    width: 70,
-    height:70,
-    borderRadius: 40,
-    marginBottom: 5
+    width: px(150),
+    height:px(150),
+    borderRadius: px(80),
+    marginBottom: px(10),
+   },
+   actorImg1:{
+    width: px(140),
+    height:px(140),
+    borderRadius: px(70),
+    marginBottom: px(10),
+    backgroundColor: 'gray'
+   },
+   introFont1:{
+    color:'white',
+    fontSize: px(28),
    }
    
 

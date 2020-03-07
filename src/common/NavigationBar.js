@@ -1,6 +1,7 @@
 import React,{Component} from 'react'
 import {ViewPropTypes, StatusBar, View, Text,StyleSheet, Platform} from 'react-native'
 import {PropTypes} from 'prop-types'
+import { px } from '../util/device';
 
 const NAV_BAR_HEIGHT_IOS = 44; //标题栏高度
 const NAV_BAR_HEIGHT_ANDROID = 50; //标题栏高度

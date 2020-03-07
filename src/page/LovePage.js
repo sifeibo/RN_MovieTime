@@ -37,7 +37,7 @@ class LovePage extends React.Component{
       star: 9.3,
       content: '日本 /剧情 动画 奇幻/ 上映时间: 2001-7-20(日本)日本 /剧情 动画 奇幻/ 上映时间: 2001-7-20(日本)'},
       {
-      id: 1,
+      id: 2,
       movieName: '美丽人生',
       movieImage: 'http://img3.doubanio.com/view/photo/s_ratio_poster/public/p2578474613.jpg',
       movieid: '1292063',
@@ -80,13 +80,8 @@ class LovePage extends React.Component{
 const styles = StyleSheet.create({
     container:{
         flex: 1,
-
+        backgroundColor: 'white',
     },
-    welcome:{
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    }
 });
 
 const mapStateToProps = state =>({});

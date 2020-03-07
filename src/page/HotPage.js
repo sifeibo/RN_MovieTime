@@ -19,6 +19,7 @@ import actions from '../action/index'
 import NavigationUtil from '../navigator/NavigationUtil'
 import HotItem from '../common/HotItem'
 import NavigationBar from '../common/NavigationBar'
+import { px } from '../util/device';
 
 // 豆瓣api网址
 const URL = 'https://api.douban.com/v2/movie/'
@@ -52,6 +53,7 @@ class HotPage extends React.Component{
     })
     if(!this.tabNavigator){
       this.tabNavigator = createAppContainer(createMaterialTopTabNavigator(topTabs,{
+        lazy: true, //延迟加载
         tabBarOptions:{
           tabStyle: styles.tabStyle, //标签框属性
           upperCaseLabel: false, // 是否使用标签大写
@@ -235,7 +237,7 @@ const HotTabPage = connect(mapStateToProps,mapDispatchToProps)(HotTab)
 const styles = StyleSheet.create({
     container:{
       flex: 1,
-      backgroundColor: '#F5FCFF',
+      backgroundColor: 'white',
       
     },
     topTabView:{
@@ -243,26 +245,26 @@ const styles = StyleSheet.create({
     },
     tabStyle:{
       justifyContent:'flex-start',
-      height: 35,
-      paddingTop: -50
+      height: px(70),
+      paddingTop: px(-100)
     },
     indicatorStyle:{
-      height: 2,
-      backgroundColor:'#F5FCFF',
+      height: px(4),
+      backgroundColor: 'white',
      
     },
     labelStyle:{
-      fontSize: 14,
+      fontSize: px(29),
     },
     listContainer:{
-      paddingLeft: 0.05 * width
+      paddingLeft: px(30)
     },
     indicatorContainer:{
       alignItems:'center'
     },
     indicator:{
       color: '#476',
-      margin: 10
+      margin: px(20)
     }
 });
 

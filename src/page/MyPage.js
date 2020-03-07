@@ -13,7 +13,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import AntDesign from 'react-native-vector-icons/AntDesign'
 
 import ViewUtil from '../util/ViewUtil';
-import NavigationUtil from '../navigator/NavigationUtil'
+import NavigationUtil from '../navigator/NavigationUtil';
+import { px } from '../util/device';
 
 class MyPage extends Component{
   constructor(props){
@@ -93,7 +94,7 @@ const styles = StyleSheet.create({
     },
     // 顶部用户信息
     headView:{
-      height: 100,
+      height: px(210),
       backgroundColor: '#476',
       flexDirection: 'row',
       alignItems: 'center',
@@ -102,22 +103,22 @@ const styles = StyleSheet.create({
       paddingLeft: 15
     },
     userImg:{
-      width: 70,
-      height:70,
-      borderRadius: 40,
+      width: px(140),
+      height: px(140),
+      borderRadius: px(80),
       borderWidth:2,
       borderColor: 'white'
     },
     userName:{
       color: 'white',
-      fontSize: 19,
+      fontSize: px(39),
       position:'absolute',
       top: 20,
       left: 100
     },
     movieNub:{
       color: 'white',
-      fontSize: 13,
+      fontSize: px(27),
       position:'absolute',
       top: 60,
       left: 100
@@ -132,7 +133,7 @@ const styles = StyleSheet.create({
     itemView:{
       flexDirection:'row',
       alignItems: 'center',
-      height: 50,
+      height: px(110),
       borderColor: '#d3d3d3',
       borderBottomWidth: 0.2,
     },

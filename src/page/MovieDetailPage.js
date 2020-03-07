@@ -1,9 +1,4 @@
 import React,{ Component } from 'react';
-import {
-  StyleSheet,
-  View,
-  Text
-} from 'react-native';
 
 
 import MovieDetail from '../common/MovieDetail'
@@ -47,8 +42,5 @@ class MovieDetailPage extends Component{
   }
 };
 
-const styles = StyleSheet.create({
-    
-});
 
 export default  MovieDetailPage;

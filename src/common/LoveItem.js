@@ -7,6 +7,9 @@ import {
   Dimensions,
   TouchableOpacity
 } from 'react-native';
+import Star from '../common/Star'
+import { px } from '../util/device';
+
 
 // 获取设备屏幕尺寸，单位 dp
 const {width} = Dimensions.get('window')
@@ -32,10 +35,11 @@ export default class HotItem extends React.Component{
                         style={styles.movieImg}
                         source={{uri: item.movieImage}}
                     />
-                    <Text  ellipsizeMode='tail' numberOfLines= {1} style={styles.movieTitle}>{item.movieName}</Text>
-                    <Text  ellipsizeMode='tail' numberOfLines= {2} style={styles.movieIntro}>{item.content}</Text>
-                    <View style={styles.movieStar}>
-                    </View>
+                   <View style={styles.movieInform}>
+                    <Text numberOfLines={1} ellipsizeMode={'tail'} style={styles.smallTitle}>{item.movieName}</Text>
+                    <Star value={item.star} size={px(26)} fontColor={'black'} margin={px(1)} />
+                    <Text numberOfLines={2} ellipsizeMode={'tail'} style={styles.briefIntro}>{item.content}</Text>
+                  </View>
                 </View>
             </TouchableOpacity>
           )
@@ -46,34 +50,33 @@ export default class HotItem extends React.Component{
 const styles = StyleSheet.create({
     movieContainer:{
       flexDirection: 'row',
-      height: 0.28 * width * 4/3 + 20,
-      paddingLeft:15,
+      height: px(310),
+      paddingLeft:px(35),
       alignItems:'center',
       borderColor: '#d3d3d3',
       borderBottomWidth: 0.3,
     },
-    // x+3y+z+3box=width
-    // box=0.28 x=0.032 y=0.021 z=0.01
-    // 宽高比2 : 3
     movieImg:{
-      width: 0.28 * width,
-      height: 0.28 * width * 4/3,
+      width: px(210),
+      height: px(280),
       borderRadius: 3,
-      borderColor:'gray'
+      borderColor:'gray',
     },
-    movieTitle:{
-      width: 0.8 * width,
-      fontSize: 17,
+    movieInform:{
+      flexDirection: 'column',
+      height: px(280),
+      marginLeft:  px(25),
+      width: width - px(296),
+     },
+
+     smallTitle:{
+      fontSize: px(34),
       fontWeight: 'bold',
-      position: 'absolute',
-      left: 0.28 * width + 26,
-      top: 15
-    },
-    movieIntro:{
-      fontSize: 13.5,
-      width: 200,
-      position: 'absolute',
-      left: 0.28 * width + 26,
-      bottom: 20
-    }
+      marginTop: px(30),
+      marginBottom: px(30),
+     },
+     briefIntro:{
+      fontSize: px(25),
+      marginTop: px(30),
+     },
 });
