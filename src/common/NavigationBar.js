@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     },
     navBar:{
         flexDirection: 'row',
-        alignItems: 'center',
+        // alignItems: 'center',
         justifyContent: 'space-between',
         height: Platform.OS === 'ios'? NAV_BAR_HEIGHT_IOS : NAV_BAR_HEIGHT_ANDROID
 

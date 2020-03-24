@@ -41,7 +41,7 @@ class MyPage extends Component{
     return (
       <View style={styles.container}>
           {navigationBar}
-          <TouchableOpacity style={styles.headView} onPress={()=>{NavigationUtil.movePage({},'DataStoreDemo')}}>
+          <TouchableOpacity style={styles.headView} onPress={()=>{NavigationUtil.movePage({},'LoginPage')}}>
             <Image 
               style={styles.userImg}
               source={{uri: this.state.user.userimage}}/>

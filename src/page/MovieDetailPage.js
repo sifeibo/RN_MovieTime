@@ -3,6 +3,7 @@ import React,{ Component } from 'react';
 
 import MovieDetail from '../common/MovieDetail'
 import DataStore from '../expand/localdb/DataStore'
+import LoveDao from '../expand/localdb/LoveDao'
 
 
 
@@ -18,7 +19,7 @@ class MovieDetailPage extends Component{
   }
   componentDidMount(){
     const {id} = this.props.navigation.state.params;
-    this.loadData(id)
+    this.loadData(id);
   }
   // 获取详情数据
   loadData(id){
@@ -26,6 +27,7 @@ class MovieDetailPage extends Component{
     let url = URL + id + apikey
     dataStore.fetchData(url) 
     .then(data=>{
+      console.log(data.data.data)
       this.setState({
         infromation: data.data.data
       })
@@ -34,7 +36,7 @@ class MovieDetailPage extends Component{
   render(){
     if (Object.keys(this.state.infromation).length!= 0){
       return (
-        <MovieDetail data={this.state.infromation} navigation={this.props.navigation}/>
+        <MovieDetail id={this.props.navigation.state.params.id} data={this.state.infromation}  navigation={this.props.navigation}/>
       );
     }else{
       return null

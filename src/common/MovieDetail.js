@@ -16,12 +16,14 @@ import NavigationUtil from '../navigator/NavigationUtil'
 import BackPress from '../common/BackPress'
 import Star from '../common/Star'
 import { px } from '../util/device';
+import LoveDao from '../expand/localdb/LoveDao'
 
 
 // 获取设备屏幕尺寸，单位 dp
 const {width} = Dimensions.get('window')
 const PARALLAX_HEADER_HEIGHT = px(510);
 const STICKY_HEADER_HEIGHT = 70;
+const loveDao = new LoveDao('movie');
 
 
 const arrToString = function(arr){
@@ -36,10 +38,21 @@ export default class HotItem extends React.Component{
     constructor(props){
         super(props);
         this.backPress = new BackPress({backPress: () => this.onBackPress()});
+        this.state = {
+            isLoveKeys: false,
+        }
     }
     componentDidMount(){
         this.backPress.componentDidMount();
+        loveDao.getLoveKeys().then((data)=>{
+            console.log(data)
+        })
+        loveDao.isLoveKeys(this.props.id).then((isLoveKeys)=>{
+            this.setState({isLoveKeys})
+            console.log(isLoveKeys)
+        })
     }
+    
     // 卸载监听
     componentWillUnmount(){
         this.backPress.componentWillUnmount();
@@ -132,8 +145,10 @@ export default class HotItem extends React.Component{
             </View>
         );
         // 固定的按钮
-        config.renderFixedHeader=() => (
-            <View key="fixed-header">
+        config.renderFixedHeader=() => {
+            let isLoveKeys = this.state.isLoveKeys;
+            if(isLoveKeys){
+                return (  <View key="fixed-header">
                 <TouchableOpacity style={{position: 'absolute',bottom: -3,left: 20,width:50,height:50, justifyContent:'center'}} 
                 onPress={() => {NavigationUtil.goBack(navigation)}} >
                     <Ionicons 
@@ -142,7 +157,46 @@ export default class HotItem extends React.Component{
                         style={{color: 'white'}}/>
                 </TouchableOpacity>
                 <TouchableOpacity style={{position: 'absolute',bottom: -2,right: 60,width:50,height:50,alignItems:'center',justifyContent:'center'}} 
-                onPress={() => {}}>
+                onPress={() => {
+                    loveDao.moveLoveItem(data.id)
+                    this.setState({isLoveKeys: false})    
+                }}>
+                        <AntDesign 
+                        name={'star'}
+                        size={24}
+                        style={{color: 'white'}}
+                        />
+                </TouchableOpacity>
+                 <TouchableOpacity style={{position: 'absolute',bottom: -2,right: 10,width:50,height:50,alignItems:'center',justifyContent:'center'}} 
+                 onPress={() => {}}>
+                        <AntDesign 
+                        name={'ellipsis1'}
+                        size={26}
+                        style={{color: 'white'}}
+                        />
+                </TouchableOpacity>
+            </View>)
+            }else{
+                return (  <View key="fixed-header">
+                <TouchableOpacity style={{position: 'absolute',bottom: -3,left: 20,width:50,height:50, justifyContent:'center'}} 
+                onPress={() => {NavigationUtil.goBack(navigation)}} >
+                    <Ionicons 
+                        name = {'ios-arrow-back'}
+                        size = {28}
+                        style={{color: 'white'}}/>
+                </TouchableOpacity>
+                <TouchableOpacity style={{position: 'absolute',bottom: -2,right: 60,width:50,height:50,alignItems:'center',justifyContent:'center'}} 
+                onPress={() => {
+                    let value = {
+                        movieid: data.id,
+                        movieName: data.title,
+                        movieImg: data.images.large,
+                        movieStar: data.rating.average,
+                        movieContent: introduction
+                    }
+                    loveDao.saveLoveItem(data.id,value)
+                    this.setState({isLoveKeys: true})
+                    }}>
                         <AntDesign 
                         name={'staro'}
                         size={24}
@@ -157,8 +211,9 @@ export default class HotItem extends React.Component{
                         style={{color: 'white'}}
                         />
                 </TouchableOpacity>
-            </View>
-          );
+            </View>)
+            }
+        };
         return config;
     }
     render(){

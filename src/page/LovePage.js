@@ -30,19 +30,17 @@ class LovePage extends React.Component{
     let statusBar={ backgroundColor: '#476', barStyle: 'light-content',hidden: false}
     let navigationBar = <NavigationBar title={'我的收藏'} statusBar = {statusBar} style = {{backgroundColor: '#476'}} />
     let items = [{
-      id: 1,
       movieName: '千与千寻',
-      movieImage: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p2557573348.jpg',
+      movieImg: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p2557573348.jpg',
       movieid: '1291561',
-      star: 9.3,
-      content: '日本 /剧情 动画 奇幻/ 上映时间: 2001-7-20(日本)日本 /剧情 动画 奇幻/ 上映时间: 2001-7-20(日本)'},
+      movieStar: 7.5,
+      movieContent: '日本 /剧情 动画 奇幻/ 上映时间: 2001-7-20(日本)日本 /剧情 动画 奇幻/ 上映时间: 2001-7-20(日本)'},
       {
-      id: 2,
       movieName: '美丽人生',
-      movieImage: 'http://img3.doubanio.com/view/photo/s_ratio_poster/public/p2578474613.jpg',
+      movieImg: 'http://img3.doubanio.com/view/photo/s_ratio_poster/public/p2578474613.jpg',
       movieid: '1292063',
-      star: 9.5,
-      content: '日本 /剧情 动画 奇幻/ 上映时间: 2001-7-20(日本)日本 /剧情 动画 奇幻/ 上映时间: 2001-7-20(日本)'}];
+      movieStar: 9.5,
+      movieContent: '日本 /剧情 动画 奇幻/ 上映时间: 2001-7-20(日本)日本 /剧情 动画 奇幻/ 上映时间: 2001-7-20(日本)'}];
     return (
       
       <View style={styles.container}>
@@ -52,7 +50,7 @@ class LovePage extends React.Component{
           data={items}
           numColumns ={1} // 一行1个
           renderItem={this.renderItem}
-          keyExtractor={item=>'' + item.id}
+          keyExtractor={item=>'' + item.movieid}
           // refreshControl={
           //   <RefreshControl
           //     title={'Loading'}

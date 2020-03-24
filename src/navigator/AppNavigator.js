@@ -4,7 +4,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import WelcomePage from '../page/WelcomePage'
 import HomePage from '../page/HomePage'
 import MovieDetailPage from '../page/MovieDetailPage'
-import DataStoreDemo from '../page/DataStoreDemo'
+import LoginPage from '../page/LoginPage'
 import {connect} from 'react-redux'
 import {createReactNavigationReduxMiddleware, createReduxContainer} from 'react-navigation-redux-helpers'
 
@@ -33,10 +33,10 @@ const MainNavigator = createStackNavigator({
         navigationOptions:{
             headerShown: false, //可以通过这个属性禁用stack的bar
         }
-    },DataStoreDemo:{
-        screen: DataStoreDemo,
+    },LoginPage:{
+        screen: LoginPage,
         navigationOptions:{
-           
+            headerShown: false, //可以通过这个属性禁用stack的ba
         }
     }
 })
