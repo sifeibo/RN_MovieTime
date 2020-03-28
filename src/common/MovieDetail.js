@@ -43,6 +43,7 @@ export default class HotItem extends React.Component{
         }
     }
     componentDidMount(){
+        console.log(global.data.userInfo)
         this.backPress.componentDidMount();
         loveDao.getLoveKeys().then((data)=>{
             console.log(data)
@@ -159,6 +160,7 @@ export default class HotItem extends React.Component{
                 <TouchableOpacity style={{position: 'absolute',bottom: -2,right: 60,width:50,height:50,alignItems:'center',justifyContent:'center'}} 
                 onPress={() => {
                     loveDao.moveLoveItem(data.id)
+                    
                     this.setState({isLoveKeys: false})    
                 }}>
                         <AntDesign 

@@ -13,7 +13,8 @@ import NavigationBar from '../common/NavigationBar'
 import BackPress from '../common/BackPress'
 import Ionicons  from 'react-native-vector-icons/Ionicons'
 import axios from 'axios';
-import AsyncStorage from '@react-native-community/async-storage';        
+import AsyncStorage from '@react-native-community/async-storage';     
+ 
 
 import NavigationUtil from '../navigator/NavigationUtil';
 import { px } from '../util/device';
@@ -51,7 +52,7 @@ class LoginPage extends Component{
     return true;
   }
   login(){
-    console.log('登录',this.state.name,this.state.password)
+    // console.log('登录',this.state.name,this.state.password)
     // 解决axios的post格式问题，原格式为application/json，传递json字符串：{"name":"123","password":"123"}
     // 而我需要传递application/x-www-form-urlencoded格式，类似 key-value的格式
     // 1. 使用formData 去创建数据，传递的自然就是formData格式
@@ -76,8 +77,12 @@ class LoginPage extends Component{
       headers: {'content-type': 'application/x-www-form-urlencoded'},
     })
     .then(response =>{
-      console.log(response);
-      // AsyncStorage.setItem(url, JSON.stringify(this._wrapData(data)), callback)
+      // console.log(response);
+      // 存入本地数据库
+      // AsyncStorage.setItem('userInfo', JSON.stringify(response.data.data))
+      // 存入全局变量
+      global.data.userInfo = response.data.data;
+      // 调用回调函数
       let tag = response.data.msg;
       Alert.alert(
         '系统通知',
@@ -86,6 +91,9 @@ class LoginPage extends Component{
           {text: 'OK', onPress: () => {
             if(tag === '登录成功'){
               NavigationUtil.goBack(this.props.navigation);
+              if (this.props.navigation.state.params.callback) {
+                this.props.navigation.state.params.callback()
+              }
             }
           }},
         ],
@@ -98,8 +106,45 @@ class LoginPage extends Component{
     
   }
   register(){
-    console.log('注册')
-    console.log(this.state.name)
+    let obj = {
+      name: this.state.name,
+      password: this.state.password,
+      username: '新用户'
+    }
+    obj = JSON.stringify(obj)
+    axios({method: 'post',
+      url: 'http://192.168.43.62:9999/createUser/', 
+      // data: formData,
+      // 2. 增加transformRequest方法在发送post数据之前改变数据格式
+      data:{obj: obj},
+      transformRequest: [function (data) {
+        let ret = ''
+        for (let it in data) {
+          ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+        }
+        return ret
+      }],
+      headers: {'content-type': 'application/x-www-form-urlencoded'},
+    })
+    .then(response =>{
+      console.log(response);
+      let tag = response.data.msg;
+      Alert.alert(
+        '系统通知',
+        tag,
+        [
+          {text: 'OK', onPress: () => {
+            // if(tag === '注册成功'){
+            //   NavigationUtil.goBack(this.props.navigation);
+            // }
+          }},
+        ],
+        { cancelable: false }
+        )
+    })
+    .catch(error =>{
+      console.log(error);
+    });
   }
   render(){
     let statusBar={

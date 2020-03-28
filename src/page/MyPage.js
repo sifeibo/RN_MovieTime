@@ -15,16 +15,38 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import ViewUtil from '../util/ViewUtil';
 import NavigationUtil from '../navigator/NavigationUtil';
 import { px } from '../util/device';
+import AsyncStorage from '@react-native-community/async-storage'; 
+    
 
 class MyPage extends Component{
   constructor(props){
     super(props);
     this.state={
-      user:{
-        userimage: 'https://dss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3819550809,2703379148&fm=111&gp=0.jpg',
-        username: '苦茶丶',
-        movienub: '15',
-      },
+      userInfo: global.data.userInfo
+    }
+  }
+  componentDidMount(){
+  }
+  userinfo(userInfo){
+    console.log(userInfo)
+    if(userInfo === null){
+      return (<TouchableOpacity style={styles.headView} onPress={()=>{NavigationUtil.movePage({callback: (()=>{this.setState({userInfo: global.data.userInfo})})},'LoginPage')}}>
+      {/* <Image 
+        style={styles.userImg}
+        source={{uri: this.state.user.userimage}}/>
+      <Text  style={styles.userName} >{this.state.user.username}</Text> */}
+      <Text  style={styles.movieNub} >查看主页 / 编辑资料</Text>
+      <Entypo name = {'chevron-small-right'} size = {35} style={{color: 'white', position:'absolute', right: 10, top:30}}/>
+    </TouchableOpacity>
+    )}else{
+      return(<TouchableOpacity style={styles.headView} onPress={()=>{NavigationUtil.movePage({},'LoginPage')}}>
+      <Image 
+        style={styles.userImg}
+        source={{uri: userInfo.userimg}}/>
+      <Text  style={styles.userName} >{userInfo.username}</Text>
+      <Text  style={styles.movieNub} >查看个人主页 / 编辑资料</Text>
+      <Entypo name = {'chevron-small-right'} size = {35} style={{color: 'white', position:'absolute', right: 10, top:30}}/>
+    </TouchableOpacity>)
     }
   }
   render(){
@@ -41,14 +63,7 @@ class MyPage extends Component{
     return (
       <View style={styles.container}>
           {navigationBar}
-          <TouchableOpacity style={styles.headView} onPress={()=>{NavigationUtil.movePage({},'LoginPage')}}>
-            <Image 
-              style={styles.userImg}
-              source={{uri: this.state.user.userimage}}/>
-            <Text  style={styles.userName} >{this.state.user.username}</Text>
-            <Text  style={styles.movieNub} >查看个人主页 / 编辑资料</Text>
-            <Entypo name = {'chevron-small-right'} size = {35} style={{color: 'white', position:'absolute', right: 10, top:30}}/>
-          </TouchableOpacity>
+          {this.userinfo(this.state.userInfo)}
 
           <View  style={styles.bottomView}>
             <TouchableOpacity style={[styles.itemView]} onPress={()=>{NavigationUtil.movePage({},'DataStoreDemo')}}>

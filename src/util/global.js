@@ -1,0 +1,3 @@
+global.data ={
+    userInfo: null
+}
