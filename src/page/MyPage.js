@@ -12,6 +12,7 @@ import Ionicons  from 'react-native-vector-icons/Ionicons'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 
+import {connect} from 'react-redux'
 import ViewUtil from '../util/ViewUtil';
 import NavigationUtil from '../navigator/NavigationUtil';
 import { px } from '../util/device';
@@ -21,16 +22,12 @@ import AsyncStorage from '@react-native-community/async-storage';
 class MyPage extends Component{
   constructor(props){
     super(props);
-    this.state={
-      userInfo: global.data.userInfo
-    }
-  }
-  componentDidMount(){
   }
   userinfo(userInfo){
     console.log(userInfo)
     if(userInfo === null){
-      return (<TouchableOpacity style={styles.headView} onPress={()=>{NavigationUtil.movePage({callback: (()=>{this.setState({userInfo: global.data.userInfo})})},'LoginPage')}}>
+      return (<TouchableOpacity style={styles.headView} onPress={()=>{NavigationUtil.movePage({},'LoginPage')}}>
+        {/* onPress={()=>{NavigationUtil.movePage({callback: (()=>{this.setState({userInfo: global.data.userInfo})})},'LoginPage')}}> */}
       {/* <Image 
         style={styles.userImg}
         source={{uri: this.state.user.userimage}}/>
@@ -60,10 +57,11 @@ class MyPage extends Component{
       statusBar = {statusBar}
       style = {{backgroundColor: '#476'}}
     />
+    let userInfo = this.props.login.userInfo
     return (
       <View style={styles.container}>
           {navigationBar}
-          {this.userinfo(this.state.userInfo)}
+          {this.userinfo(userInfo)}
 
           <View  style={styles.bottomView}>
             <TouchableOpacity style={[styles.itemView]} onPress={()=>{NavigationUtil.movePage({},'DataStoreDemo')}}>
@@ -162,4 +160,8 @@ const styles = StyleSheet.create({
 
 });
 
-export default MyPage;
+const mapStateToProps = state => ({
+  login: state.login,
+});
+
+export default connect(mapStateToProps)(MyPage);

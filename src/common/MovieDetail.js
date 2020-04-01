@@ -17,6 +17,7 @@ import BackPress from '../common/BackPress'
 import Star from '../common/Star'
 import { px } from '../util/device';
 import LoveDao from '../expand/localdb/LoveDao'
+import axios from 'axios';
 
 
 // 获取设备屏幕尺寸，单位 dp
@@ -40,20 +41,76 @@ export default class HotItem extends React.Component{
         this.backPress = new BackPress({backPress: () => this.onBackPress()});
         this.state = {
             isLoveKeys: false,
+            userInfo: global.data.userInfo
         }
     }
     componentDidMount(){
-        console.log(global.data.userInfo)
+        console.log(this.state.userInfo)
         this.backPress.componentDidMount();
-        loveDao.getLoveKeys().then((data)=>{
-            console.log(data)
-        })
-        loveDao.isLoveKeys(this.props.id).then((isLoveKeys)=>{
-            this.setState({isLoveKeys})
-            console.log(isLoveKeys)
-        })
+        // loveDao.getLoveKeys().then((data)=>{
+        //     console.log(data)
+        // })
+        // loveDao.isLoveKeys(this.props.id).then((isLoveKeys)=>{
+        //     this.setState({isLoveKeys})
+        //     console.log(isLoveKeys)
+        // })
+        // 如果存在用户信息则检测是否存在于收藏中
+        if(this.state.userInfo !== null){
+            axios({method: 'post',
+            url: 'http://192.168.43.62:9999/isInMovies/', 
+            data:{
+             userId: this.state.userInfo.id,
+             movieId: this.props.data.id
+            },
+            transformRequest: [function (data) {
+              let ret = ''
+              for (let it in data) {
+                ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+              }
+              return ret
+            }],
+            headers: {'content-type': 'application/x-www-form-urlencoded'},
+          })
+          .then(response =>{
+              console.log(response)
+              if(response.data.state=="success"){
+                this.setState({
+                    isLoveKeys: true
+                })
+              }
+          })
+        }
     }
-    
+
+    componentDidUpdate(prevProps, prevState){
+        console.log("我被调用了")
+        if(prevState.userInfo !== this.state.userInfo){
+            axios({method: 'post',
+            url: 'http://192.168.43.62:9999/isInMovies/', 
+            data:{
+             userId: this.state.userInfo.id,
+             movieId: this.props.data.id
+            },
+            transformRequest: [function (data) {
+              let ret = ''
+              for (let it in data) {
+                ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+              }
+              return ret
+            }],
+            headers: {'content-type': 'application/x-www-form-urlencoded'},
+          })
+          .then(response =>{
+              console.log(response)
+              if(response.data.state=="success"){
+                this.setState({
+                    isLoveKeys: true
+                })
+              }
+          })
+        }
+    }
+   
     // 卸载监听
     componentWillUnmount(){
         this.backPress.componentWillUnmount();
@@ -159,9 +216,30 @@ export default class HotItem extends React.Component{
                 </TouchableOpacity>
                 <TouchableOpacity style={{position: 'absolute',bottom: -2,right: 60,width:50,height:50,alignItems:'center',justifyContent:'center'}} 
                 onPress={() => {
-                    loveDao.moveLoveItem(data.id)
-                    
-                    this.setState({isLoveKeys: false})    
+                    // loveDao.moveLoveItem(data.id)
+                    axios({method: 'post',
+                        url: 'http://192.168.43.62:9999/deleteStore/', 
+                        data:{
+                        userId: this.state.userInfo.id,
+                        movieId: this.props.data.id
+                        },
+                        transformRequest: [function (data) {
+                        let ret = ''
+                        for (let it in data) {
+                            ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+                        }
+                        return ret
+                        }],
+                        headers: {'content-type': 'application/x-www-form-urlencoded'},
+                    })
+                    .then(response =>{
+                        console.log(response)
+                        if(response.data.state=="success"){
+                            this.setState({
+                                isLoveKeys: false
+                            })
+                        }
+                    })
                 }}>
                         <AntDesign 
                         name={'star'}
@@ -189,15 +267,40 @@ export default class HotItem extends React.Component{
                 </TouchableOpacity>
                 <TouchableOpacity style={{position: 'absolute',bottom: -2,right: 60,width:50,height:50,alignItems:'center',justifyContent:'center'}} 
                 onPress={() => {
-                    let value = {
-                        movieid: data.id,
-                        movieName: data.title,
-                        movieImg: data.images.large,
-                        movieStar: data.rating.average,
-                        movieContent: introduction
+                    if(this.state.userInfo !== null){
+                        let obj = {
+                            userid: this.state.userInfo.id,
+                            movieid: data.id,
+                            moviename: data.title,
+                            movieimg: data.images.large,
+                            moviestar: data.rating.average,
+                            moviecontent: introduction
+                        }
+                        obj = JSON.stringify(obj)
+                        // loveDao.saveLoveItem(data.id,obj)
+                        axios({method: 'post',
+                            url: 'http://192.168.43.62:9999/addStore/', 
+                            data:{
+                                obj: obj
+                            },
+                            transformRequest: [function (data) {
+                            let ret = ''
+                            for (let it in data) {
+                                ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+                            }
+                            return ret
+                            }],
+                            headers: {'content-type': 'application/x-www-form-urlencoded'},
+                        })
+                        .then(response =>{
+                            console.log(response)
+                            if(response.data.state=="success"){
+                                this.setState({isLoveKeys: true})
+                            }
+                        })
+                    }else{
+                        NavigationUtil.movePage({callback: (()=>{this.setState({userInfo: global.data.userInfo})})},'LoginPage')
                     }
-                    loveDao.saveLoveItem(data.id,value)
-                    this.setState({isLoveKeys: true})
                     }}>
                         <AntDesign 
                         name={'staro'}

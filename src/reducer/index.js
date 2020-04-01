@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 import {rootCom, RootNavigator} from '../navigator/AppNavigator'
 import theme from './theme'
 import hot from './hot'
+import login from './login'
 
 
 // 1. 指定默认的state
@@ -19,6 +20,7 @@ const index = combineReducers({
     nav: navReducer,
     theme: theme,
     hot: hot,
+    login
 });
 
 export default index;

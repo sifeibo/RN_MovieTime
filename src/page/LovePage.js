@@ -10,12 +10,35 @@ import {
 import {connect} from 'react-redux'
 import actions from '../action/index'
 import NavigationBar from '../common/NavigationBar'
+import axios from 'axios';
 import LoveItem from '../common/LoveItem'
 import NavigationUtil from '../navigator/NavigationUtil'
 
 
 
 class LovePage extends React.Component{
+  componentDidMount(){
+    // axios({method: 'post',
+    //   url: 'http://192.168.43.62:9999/getAllMovies/', 
+    //   // data: formData,
+    //   // 2. 增加transformRequest方法在发送post数据之前改变数据格式
+    //   data:{
+    //     name: this.state.name,
+    //     password: this.state.password
+    //   },
+    //   transformRequest: [function (data) {
+    //     let ret = ''
+    //     for (let it in data) {
+    //       ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+    //     }
+    //     return ret
+    //   }],
+    //   headers: {'content-type': 'application/x-www-form-urlencoded'},
+    // })
+    // .then(response =>{
+      
+    // })
+  }
   renderItem({item}){
     return <LoveItem 
     item={item}

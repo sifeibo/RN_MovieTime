@@ -7,6 +7,7 @@ import LoveDao from '../expand/localdb/LoveDao'
 
 
 
+
 const URL = 'http://api.douban.com/v2/movie/subject/'
 const apikey='?apikey=0b2bdeda43b5688921839c8ecb20399b'
 
@@ -36,7 +37,8 @@ class MovieDetailPage extends Component{
   render(){
     if (Object.keys(this.state.infromation).length!= 0){
       return (
-        <MovieDetail id={this.props.navigation.state.params.id} data={this.state.infromation}  navigation={this.props.navigation}/>
+        // id={this.props.navigation.state.params.id}
+        <MovieDetail  data={this.state.infromation}  navigation={this.props.navigation}/>
       );
     }else{
       return null
