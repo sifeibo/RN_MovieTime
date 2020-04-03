@@ -17,27 +17,53 @@ import NavigationUtil from '../navigator/NavigationUtil'
 
 
 class LovePage extends React.Component{
+  constructor(props){
+    super(props);
+    this.state={
+      items: []
+    }
+  }
+  // 获取收藏数据
+  loadData(id){
+    axios({method: 'post',
+      url: 'http://192.168.43.62:9999/getAllMovies/', 
+      // data: formData,
+      // 2. 增加transformRequest方法在发送post数据之前改变数据格式
+      data:{
+        id: id
+      },
+      transformRequest: [function (data) {
+        let ret = ''
+        for (let it in data) {
+          ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+        }
+        return ret
+      }],
+      headers: {'content-type': 'application/x-www-form-urlencoded'},
+    })
+    .then(response =>{
+      console.log(response)
+      if(response.data.state === 'success'){
+        this.setState({
+          items: response.data.data
+        })
+      }
+    })
+  }
   componentDidMount(){
-    // axios({method: 'post',
-    //   url: 'http://192.168.43.62:9999/getAllMovies/', 
-    //   // data: formData,
-    //   // 2. 增加transformRequest方法在发送post数据之前改变数据格式
-    //   data:{
-    //     name: this.state.name,
-    //     password: this.state.password
-    //   },
-    //   transformRequest: [function (data) {
-    //     let ret = ''
-    //     for (let it in data) {
-    //       ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-    //     }
-    //     return ret
-    //   }],
-    //   headers: {'content-type': 'application/x-www-form-urlencoded'},
-    // })
-    // .then(response =>{
-      
-    // })
+    if(this.props.login.userInfo !==null){
+      this.loadData(this.props.login.userInfo.id);
+    }
+  }
+  // 监听props改变
+  UNSAFE_componentWillReceiveProps(nextProps){
+    console.log("监听到有收藏操作")
+    if(nextProps.collection.tag !== this.props.collection.tag){
+      this.loadData(this.props.login.userInfo.id);
+    }
+    if(nextProps.login.userInfo !== this.props.login.userInfo){
+      this.loadData(nextProps.login.userInfo.id);
+    }
   }
   renderItem({item}){
     return <LoveItem 
@@ -52,18 +78,7 @@ class LovePage extends React.Component{
   render(){
     let statusBar={ backgroundColor: '#476', barStyle: 'light-content',hidden: false}
     let navigationBar = <NavigationBar title={'我的收藏'} statusBar = {statusBar} style = {{backgroundColor: '#476'}} />
-    let items = [{
-      movieName: '千与千寻',
-      movieImg: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p2557573348.jpg',
-      movieid: '1291561',
-      movieStar: 7.5,
-      movieContent: '日本 /剧情 动画 奇幻/ 上映时间: 2001-7-20(日本)日本 /剧情 动画 奇幻/ 上映时间: 2001-7-20(日本)'},
-      {
-      movieName: '美丽人生',
-      movieImg: 'http://img3.doubanio.com/view/photo/s_ratio_poster/public/p2578474613.jpg',
-      movieid: '1292063',
-      movieStar: 9.5,
-      movieContent: '日本 /剧情 动画 奇幻/ 上映时间: 2001-7-20(日本)日本 /剧情 动画 奇幻/ 上映时间: 2001-7-20(日本)'}];
+    let items = this.state.items;
     return (
       
       <View style={styles.container}>
@@ -105,7 +120,10 @@ const styles = StyleSheet.create({
     },
 });
 
-const mapStateToProps = state =>({});
+const mapStateToProps = state =>({
+  login: state.login,
+  collection: state.collection
+});
 const mapDispatchToProps = dispatch =>({
   onThemeChangeColor: themeColor=>dispatch(actions.onThemeChangeColor(themeColor))
 });

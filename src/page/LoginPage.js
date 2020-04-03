@@ -47,7 +47,8 @@ class LoginPage extends Component{
   componentWillUnmount(){
     this.backPress.componentWillUnmount();
   }
-  componentWillReceiveProps(nextProps){
+  // 监听props改变发出通知
+  UNSAFE_componentWillReceiveProps(nextProps){
     if(nextProps.login.msg !== this.props.login.msg){
       Alert.alert(
         '系统通知',

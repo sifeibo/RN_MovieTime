@@ -4,11 +4,13 @@
 import {onThemeChangeColor} from './theme'
 import {onLoadHotData, onLoadMoreHotData} from './hot'
 import {onLogin} from './login'
+import {onCollectionAction} from './collection'
 
 
 export default{
     onThemeChangeColor,
     onLoadHotData,
     onLoadMoreHotData,
-    onLogin
+    onLogin,
+    onCollectionAction
 }

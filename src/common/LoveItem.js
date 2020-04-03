@@ -33,12 +33,12 @@ export default class HotItem extends React.Component{
                 <View style={styles.movieContainer}>
                     <Image
                         style={styles.movieImg}
-                        source={{uri: item.movieImg}}
+                        source={{uri: item.movieimg}}
                     />
                    <View style={styles.movieInform}>
-                    <Text numberOfLines={1} ellipsizeMode={'tail'} style={styles.smallTitle}>{item.movieName}</Text>
-                    <Star value={item.movieStar} size={px(26)} fontColor={'black'} margin={px(1)} />
-                    <Text numberOfLines={2} ellipsizeMode={'tail'} style={styles.briefIntro}>{item.movieContent}</Text>
+                    <Text numberOfLines={1} ellipsizeMode={'tail'} style={styles.smallTitle}>{item.moviename}</Text>
+                    <Star value={item.moviestar} size={px(26)} fontColor={'black'} margin={px(1)} />
+                    <Text numberOfLines={2} ellipsizeMode={'tail'} style={styles.briefIntro}>{item.moviecontent}</Text>
                   </View>
                 </View>
             </TouchableOpacity>

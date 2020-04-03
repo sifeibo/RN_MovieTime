@@ -19,4 +19,6 @@ export default {
     LOGIN_FAIL: 'LOGIN_FAIL',
     LOGIN_NETFAIL: 'LOGIN_NETFAIL',
     
+    // 收藏
+    COLLECT_ACTION: 'COLLECT_ACTION'
 }

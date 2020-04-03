@@ -18,6 +18,8 @@ import Star from '../common/Star'
 import { px } from '../util/device';
 import LoveDao from '../expand/localdb/LoveDao'
 import axios from 'axios';
+import {connect} from 'react-redux'
+import actions from '../action/index'
 
 
 // 获取设备屏幕尺寸，单位 dp
@@ -35,17 +37,16 @@ const arrToString = function(arr){
     return string + '/';
 }
 
-export default class HotItem extends React.Component{
+class HotItem extends React.Component{
     constructor(props){
         super(props);
         this.backPress = new BackPress({backPress: () => this.onBackPress()});
         this.state = {
-            isLoveKeys: false,
-            userInfo: global.data.userInfo
+            isLoveKeys: false
         }
     }
     componentDidMount(){
-        console.log(this.state.userInfo)
+        console.log(this.props.login.userInfo)
         this.backPress.componentDidMount();
         // loveDao.getLoveKeys().then((data)=>{
         //     console.log(data)
@@ -55,11 +56,11 @@ export default class HotItem extends React.Component{
         //     console.log(isLoveKeys)
         // })
         // 如果存在用户信息则检测是否存在于收藏中
-        if(this.state.userInfo !== null){
+        if(this.props.login.userInfo !== null){
             axios({method: 'post',
             url: 'http://192.168.43.62:9999/isInMovies/', 
             data:{
-             userId: this.state.userInfo.id,
+             userId: this.props.login.userInfo.id,
              movieId: this.props.data.id
             },
             transformRequest: [function (data) {
@@ -82,13 +83,13 @@ export default class HotItem extends React.Component{
         }
     }
 
-    componentDidUpdate(prevProps, prevState){
-        console.log("我被调用了")
-        if(prevState.userInfo !== this.state.userInfo){
+    UNSAFE_componentWillReceiveProps(nextProps){
+        // console.log("我被调用了")
+        if(nextProps.login.userInfo !== this.props.login.userInfo){
             axios({method: 'post',
             url: 'http://192.168.43.62:9999/isInMovies/', 
             data:{
-             userId: this.state.userInfo.id,
+             userId: nextProps.login.userInfo.id,
              movieId: this.props.data.id
             },
             transformRequest: [function (data) {
@@ -220,7 +221,7 @@ export default class HotItem extends React.Component{
                     axios({method: 'post',
                         url: 'http://192.168.43.62:9999/deleteStore/', 
                         data:{
-                        userId: this.state.userInfo.id,
+                        userId: this.props.login.userInfo.id,
                         movieId: this.props.data.id
                         },
                         transformRequest: [function (data) {
@@ -235,6 +236,7 @@ export default class HotItem extends React.Component{
                     .then(response =>{
                         console.log(response)
                         if(response.data.state=="success"){
+                            this.props.onCollectionAction();
                             this.setState({
                                 isLoveKeys: false
                             })
@@ -267,9 +269,9 @@ export default class HotItem extends React.Component{
                 </TouchableOpacity>
                 <TouchableOpacity style={{position: 'absolute',bottom: -2,right: 60,width:50,height:50,alignItems:'center',justifyContent:'center'}} 
                 onPress={() => {
-                    if(this.state.userInfo !== null){
+                    if(this.props.login.userInfo !== null){
                         let obj = {
-                            userid: this.state.userInfo.id,
+                            userid: this.props.login.userInfo.id,
                             movieid: data.id,
                             moviename: data.title,
                             movieimg: data.images.large,
@@ -295,11 +297,12 @@ export default class HotItem extends React.Component{
                         .then(response =>{
                             console.log(response)
                             if(response.data.state=="success"){
+                                this.props.onCollectionAction();
                                 this.setState({isLoveKeys: true})
                             }
                         })
                     }else{
-                        NavigationUtil.movePage({callback: (()=>{this.setState({userInfo: global.data.userInfo})})},'LoginPage')
+                        NavigationUtil.movePage({},'LoginPage')
                     }
                     }}>
                         <AntDesign 
@@ -372,6 +375,15 @@ export default class HotItem extends React.Component{
     }
 };
 
+const mapStateToProps = state => ({
+    login: state.login,
+});
+
+const mapDispatchToProps = dispatch =>({
+    onCollectionAction: ()=>dispatch(actions.onCollectionAction())
+});
+
+export default  connect(mapStateToProps, mapDispatchToProps)(HotItem);
 
 const styles = StyleSheet.create({
    container:{
