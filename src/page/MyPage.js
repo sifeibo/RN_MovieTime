@@ -28,18 +28,19 @@ class MyPage extends Component{
     if(userInfo === null){
       return (<TouchableOpacity style={styles.headView} onPress={()=>{NavigationUtil.movePage({},'LoginPage')}}>
         {/* onPress={()=>{NavigationUtil.movePage({callback: (()=>{this.setState({userInfo: global.data.userInfo})})},'LoginPage')}}> */}
-      {/* <Image 
+      <Image 
         style={styles.userImg}
-        source={{uri: this.state.user.userimage}}/>
-      <Text  style={styles.userName} >{this.state.user.username}</Text> */}
-      <Text  style={styles.movieNub} >查看主页 / 编辑资料</Text>
+      />
+      <Text  style={styles.userName} >登录</Text>
+      <Text  style={styles.movieNub} >登录后可以进行更多操作哦！</Text>
       <Entypo name = {'chevron-small-right'} size = {35} style={{color: 'white', position:'absolute', right: 10, top:30}}/>
     </TouchableOpacity>
     )}else{
-      return(<TouchableOpacity style={styles.headView} onPress={()=>{NavigationUtil.movePage({},'LoginPage')}}>
+      return(<TouchableOpacity style={styles.headView} onPress={()=>{NavigationUtil.movePage({},'UserPage')}}>
       <Image 
         style={styles.userImg}
-        source={{uri: userInfo.userimg}}/>
+        source={{uri: userInfo.userimg}}
+        />
       <Text  style={styles.userName} >{userInfo.username}</Text>
       <Text  style={styles.movieNub} >查看个人主页 / 编辑资料</Text>
       <Entypo name = {'chevron-small-right'} size = {35} style={{color: 'white', position:'absolute', right: 10, top:30}}/>

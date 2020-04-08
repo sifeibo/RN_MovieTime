@@ -5,6 +5,7 @@ import WelcomePage from '../page/WelcomePage'
 import HomePage from '../page/HomePage'
 import MovieDetailPage from '../page/MovieDetailPage'
 import LoginPage from '../page/LoginPage'
+import UserPage from '../page/UserPage'
 import {connect} from 'react-redux'
 import {createReactNavigationReduxMiddleware, createReduxContainer} from 'react-navigation-redux-helpers'
 
@@ -35,6 +36,11 @@ const MainNavigator = createStackNavigator({
         }
     },LoginPage:{
         screen: LoginPage,
+        navigationOptions:{
+            headerShown: false, //可以通过这个属性禁用stack的ba
+        }
+    },UserPage:{
+        screen: UserPage,
         navigationOptions:{
             headerShown: false, //可以通过这个属性禁用stack的ba
         }

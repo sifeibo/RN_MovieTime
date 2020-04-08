@@ -80,7 +80,6 @@ class LovePage extends React.Component{
     let navigationBar = <NavigationBar title={'我的收藏'} statusBar = {statusBar} style = {{backgroundColor: '#476'}} />
     let items = this.state.items;
     return (
-      
       <View style={styles.container}>
         {navigationBar}
         <FlatList

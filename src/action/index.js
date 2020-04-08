@@ -3,7 +3,7 @@
  */
 import {onThemeChangeColor} from './theme'
 import {onLoadHotData, onLoadMoreHotData} from './hot'
-import {onLogin} from './login'
+import {onLogin, onChangeUser} from './login'
 import {onCollectionAction} from './collection'
 
 
@@ -12,5 +12,6 @@ export default{
     onLoadHotData,
     onLoadMoreHotData,
     onLogin,
-    onCollectionAction
+    onCollectionAction,
+    onChangeUser
 }

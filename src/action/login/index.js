@@ -1,6 +1,14 @@
 import Types from '../types'
 import axios from 'axios';
 
+var tag = 0
+/**
+ * 登录获取用户信息
+ * @export
+ * @param {*} name
+ * @param {*} password
+ * @returns
+ */
 export function onLogin(name, password){
     // 这里的dispatch是一个对象，不是那个传入reducer的方法
     return dispatch=>{
@@ -50,4 +58,56 @@ export function onLogin(name, password){
         })
       });
     }
+}
+
+/**
+ * 更改用户信息
+ * @export
+ * @param {*} name
+ * @param {*} password
+ * @returns
+ */
+export function onChangeUser(userInfo){
+  // 这里的dispatch是一个对象，不是那个传入reducer的方法
+  return dispatch=>{
+      axios({method: 'post',
+      url: 'http://192.168.43.62:9999/changeUser/', 
+      data:{
+        obj: JSON.stringify(userInfo)
+      },
+      transformRequest: [function (data) {
+        let ret = ''
+        for (let it in data) {
+          ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+        }
+        return ret
+      }],
+      headers: {'content-type': 'application/x-www-form-urlencoded'},
+    })
+    .then(response =>{
+      if(response.data.msg === '修改成功'){
+        dispatch({
+          type: Types.CHANGE_SUCCESS,
+          tag: ++tag,
+          msg1: response.data.msg,
+          userInfo: userInfo
+        })
+      }else{
+        dispatch({
+          type: Types.CHANGE_FAIL,
+          tag: ++tag,
+          msg1: response.data.msg,
+        })
+      }
+     
+    })
+    .catch(error =>{
+      dispatch({
+          type: Types.CHANGE_NETFAIL,
+          tag: ++tag,
+          msg1: '网络错误',
+          error
+      })
+    });
+  }
 }

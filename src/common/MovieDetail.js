@@ -45,6 +45,32 @@ class HotItem extends React.Component{
             isLoveKeys: false
         }
     }
+    // 检测是否存在于用户收藏列表中
+    isInMovies(id){
+        axios({method: 'post',
+            url: 'http://192.168.43.62:9999/isInMovies/', 
+            data:{
+             userId: id,
+             movieId: this.props.data.id
+            },
+            transformRequest: [function (data) {
+              let ret = ''
+              for (let it in data) {
+                ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+              }
+              return ret
+            }],
+            headers: {'content-type': 'application/x-www-form-urlencoded'},
+          })
+          .then(response =>{
+              console.log(response)
+              if(response.data.state=="success"){
+                this.setState({
+                    isLoveKeys: true
+                })
+              }
+          })
+    }
     componentDidMount(){
         console.log(this.props.login.userInfo)
         this.backPress.componentDidMount();
@@ -57,58 +83,13 @@ class HotItem extends React.Component{
         // })
         // 如果存在用户信息则检测是否存在于收藏中
         if(this.props.login.userInfo !== null){
-            axios({method: 'post',
-            url: 'http://192.168.43.62:9999/isInMovies/', 
-            data:{
-             userId: this.props.login.userInfo.id,
-             movieId: this.props.data.id
-            },
-            transformRequest: [function (data) {
-              let ret = ''
-              for (let it in data) {
-                ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-              }
-              return ret
-            }],
-            headers: {'content-type': 'application/x-www-form-urlencoded'},
-          })
-          .then(response =>{
-              console.log(response)
-              if(response.data.state=="success"){
-                this.setState({
-                    isLoveKeys: true
-                })
-              }
-          })
+            this.isInMovies(this.props.login.userInfo.id)
         }
     }
 
     UNSAFE_componentWillReceiveProps(nextProps){
-        // console.log("我被调用了")
         if(nextProps.login.userInfo !== this.props.login.userInfo){
-            axios({method: 'post',
-            url: 'http://192.168.43.62:9999/isInMovies/', 
-            data:{
-             userId: nextProps.login.userInfo.id,
-             movieId: this.props.data.id
-            },
-            transformRequest: [function (data) {
-              let ret = ''
-              for (let it in data) {
-                ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-              }
-              return ret
-            }],
-            headers: {'content-type': 'application/x-www-form-urlencoded'},
-          })
-          .then(response =>{
-              console.log(response)
-              if(response.data.state=="success"){
-                this.setState({
-                    isLoveKeys: true
-                })
-              }
-          })
+            this.isInMovies(nextProps.login.userInfo.id)
         }
     }
    
