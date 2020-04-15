@@ -6,15 +6,20 @@ import {
 } from 'react-native';
 
 import NavigationUtil from '../navigator/NavigationUtil'
+import SplashScreen from 'react-native-splash-screen'
 
 
 class WelcomePage extends React.Component{
   componentDidMount(){
+    // do stuff while splash screen is shown
+        // After having done stuff (such as async tasks) hide the splash screen
     this.timer = setTimeout(()=>{
+      SplashScreen.hide();
       NavigationUtil.resetToHomePage({
         navigation: this.props.navigation
       })
-    },2000);
+    },200);
+    
   }
   componentWillUnmount(){
     this.timer && clearTimeout(this.timer);
