@@ -20,6 +20,8 @@ import LoveDao from '../expand/localdb/LoveDao'
 import axios from 'axios';
 import {connect} from 'react-redux'
 import actions from '../action/index'
+import ShareUtil from '../util/ShareUtil'
+import share from "../res/share.json";
 
 
 // 获取设备屏幕尺寸，单位 dp
@@ -293,7 +295,15 @@ class HotItem extends React.Component{
                         />
                 </TouchableOpacity>
                  <TouchableOpacity style={{position: 'absolute',bottom: -2,right: 10,width:50,height:50,alignItems:'center',justifyContent:'center'}} 
-                 onPress={() => {}}>
+                 onPress={() => {
+                    let shareApp = share.share_app;
+                    ShareUtil.shareboard(shareApp.content, data.images.large, data.share_url, data.title, [0, 2, 3, 4], (code, message) => {
+                        console.log("result:" + code + message);
+                    });
+                    // ShareUtile.share('我发现了一部好电影快来看看吧！',data.images.large,data.images.large,data.title,0,(code,message) =>{
+                    //     console.log(message)
+                    // });
+                 }}>
                         <AntDesign 
                         name={'ellipsis1'}
                         size={26}
