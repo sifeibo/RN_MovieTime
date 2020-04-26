@@ -65,7 +65,7 @@ class HotItem extends React.Component{
             headers: {'content-type': 'application/x-www-form-urlencoded'},
           })
           .then(response =>{
-              console.log(response)
+            //   console.log(response)
               if(response.data.state=="success"){
                 this.setState({
                     isLoveKeys: true
@@ -74,7 +74,7 @@ class HotItem extends React.Component{
           })
     }
     componentDidMount(){
-        console.log(this.props.login.userInfo)
+        // console.log(this.props.login.userInfo)
         this.backPress.componentDidMount();
         // loveDao.getLoveKeys().then((data)=>{
         //     console.log(data)
@@ -217,7 +217,7 @@ class HotItem extends React.Component{
                         headers: {'content-type': 'application/x-www-form-urlencoded'},
                     })
                     .then(response =>{
-                        console.log(response)
+                        // console.log(response)
                         if(response.data.state=="success"){
                             this.props.onCollectionAction();
                             this.setState({
@@ -233,7 +233,12 @@ class HotItem extends React.Component{
                         />
                 </TouchableOpacity>
                  <TouchableOpacity style={{position: 'absolute',bottom: -2,right: 10,width:50,height:50,alignItems:'center',justifyContent:'center'}} 
-                 onPress={() => {}}>
+                 onPress={() => {
+                    let shareApp = share.share_app;
+                    ShareUtil.shareboard(shareApp.content, data.images.large, data.share_url, data.title, [0, 2, 3, 4], (code, message) => {
+                        console.log("result:" + code + message);
+                    });
+                 }}>
                         <AntDesign 
                         name={'ellipsis1'}
                         size={26}
@@ -278,7 +283,7 @@ class HotItem extends React.Component{
                             headers: {'content-type': 'application/x-www-form-urlencoded'},
                         })
                         .then(response =>{
-                            console.log(response)
+                            // console.log(response)
                             if(response.data.state=="success"){
                                 this.props.onCollectionAction();
                                 this.setState({isLoveKeys: true})
