@@ -12,8 +12,9 @@ import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import Entypo from 'react-native-vector-icons/Entypo'
 import NavigationUtil from '../navigator/NavigationUtil'
-import BackPress from '../common/BackPress'
+
 import Star from '../common/Star'
 import { px } from '../util/device';
 import LoveDao from '../expand/localdb/LoveDao'
@@ -42,9 +43,10 @@ const arrToString = function(arr){
 class HotItem extends React.Component{
     constructor(props){
         super(props);
-        this.backPress = new BackPress({backPress: () => this.onBackPress()});
         this.state = {
-            isLoveKeys: false
+            isLoveKeys: false,
+            isShowIntro: false,
+            introLines: 4
         }
     }
     // 检测是否存在于用户收藏列表中
@@ -75,7 +77,6 @@ class HotItem extends React.Component{
     }
     componentDidMount(){
         // console.log(this.props.login.userInfo)
-        this.backPress.componentDidMount();
         // loveDao.getLoveKeys().then((data)=>{
         //     console.log(data)
         // })
@@ -95,14 +96,77 @@ class HotItem extends React.Component{
         }
     }
    
-    // 卸载监听
-    componentWillUnmount(){
-        this.backPress.componentWillUnmount();
+    // 短评
+    getcomments(popular_comments){
+        let comments = [];
+        for(let i=0,len=popular_comments.length; i < len; i++) {
+            comments.push(
+                <View style={styles.commentView}>
+                <Image style={styles.reviewerImage}
+                source={{uri:popular_comments[i].author.avatar}}/>
+                <Text style={styles.reviewerName}>{popular_comments[i].author.name}</Text>
+                <Text style={styles.commentTime}>{popular_comments[i].created_at}</Text>
+                <Star style={styles.star} value={popular_comments[i].rating.value * 2} size={px(26)} margin={px(1)} />
+                <Text style={styles.comment}>{popular_comments[i].content}</Text>
+                <View style={styles.view4}>
+                    
+                    <AntDesign name={'like1'}
+                            size={px(30)}
+                            style={{color: 'white'}}/>
+                    <Text style={styles.useful_count}>{popular_comments[i].useful_count}</Text>
+                </View>
+               
+                </View>
+            )
+        }
+        return comments
     }
-    // 处理 Android 中的物理返回键
-    onBackPress(){
-        NavigationUtil.goBack(this.props.navigation);
-        return true;
+    // 预告片剧照
+    getPhotos(photos){
+        let pics = [];
+        let len = photos.length;
+        for(let i=0; i < 10; i++) {
+            if (i<=len){
+                pics.push(
+                    <Image
+                    style={styles.photoImg}
+                    source={{uri:photos[i].image}}/>
+                ) 
+            }
+        }
+        return pics;
+    }
+    // 显示/收起简介
+    getShowIntro(){
+        if(!this.state.isShowIntro){
+            return(
+                <TouchableOpacity style={styles.introShow} onPress={() => {
+                    this.setState({
+                        isShowIntro: true,
+                        introLines: 100
+                    })
+                }}>
+                <Text style={styles.introFont}>显示全部</Text>
+                <Entypo name={'chevron-down'}
+                        size={px(45)}
+                        style={{color: 'white'}}/>
+                </TouchableOpacity>
+            )
+        }else{
+            return(
+                <TouchableOpacity style={styles.introShow} onPress={() => {
+                    this.setState({
+                        isShowIntro: false,
+                        introLines: 4
+                    })}}>
+                <Text style={styles.introFont}>收起</Text>
+                <Entypo name={'chevron-up'}
+                        size={px(40)}
+                        style={{color: 'white'}}/>
+                </TouchableOpacity>
+                
+            )
+        }
     }
     // 渲染演员列表
     getActors(casts){
@@ -113,7 +177,7 @@ class HotItem extends React.Component{
                     <View style={styles.actorView} key={i}>
                         <View style={styles.actorImg1}>
                         </View>
-                        <Text style={styles.introFont1}>{casts[i].name}</Text>
+                        <Text style={styles.introFont1} numberOfLines={1} ellipsizeMode={'tail'}>{casts[i].name}</Text>
                     </View>
                 ) 
             }else{
@@ -123,7 +187,7 @@ class HotItem extends React.Component{
                         style={styles.actorImg}
                         source={{uri:casts[i].avatars.large}}
                         />
-                        <Text style={styles.introFont1}>{casts[i].name}</Text>
+                        <Text style={styles.introFont1} numberOfLines={1} ellipsizeMode={'tail'}>{casts[i].name}</Text>
                     </View>
                 ) 
             }
@@ -325,6 +389,8 @@ class HotItem extends React.Component{
         const renderConfig = this.getParallaxRenderConfig(data,navigation);
         const tag = this.getTags(data.tags);
         const actors = this.getActors(data.casts);
+        const photos = this.getPhotos(data.photos);
+        const comments = this.getcomments(data.popular_comments)
         return (
             <View style={styles.container}>
                 <ParallaxScrollView
@@ -347,9 +413,10 @@ class HotItem extends React.Component{
                     <Text style={styles.smallTitle1}>简介</Text>
                     <View style={styles.movieIntroduction}>
                         {/* numberOfLines={4} ellipsizeMode={'clip'} */}
-                        <Text numberOfLines={4} ellipsizeMode={'clip'} style={styles.introFont}>
+                        <Text numberOfLines={this.state.introLines} ellipsizeMode={'tail'} style={styles.introFont}>
                            {data.summary}
                         </Text>
+                        {this.getShowIntro()}
                     </View>
 
 
@@ -360,9 +427,17 @@ class HotItem extends React.Component{
                         {actors}
                     </ScrollView>
 
-                    <Text style={styles.smallTitle1}>预告片/剧照</Text>
+                    <Text style={styles.smallTitle1}>剧照</Text>
+                    <ScrollView  showsHorizontalScrollIndicator={false} 
+                    horizontal={true} 
+                    style={styles.tagView2}>
+                        {photos}
+                    </ScrollView>
                     
-                    <Text style={styles.smallTitle1}>短评</Text>
+                    <Text style={styles.smallTitle1}>热评</Text>
+                    <View style={styles.View3}>
+                    {comments}
+                    </View>
 
                 </View>
                 </ParallaxScrollView>
@@ -390,14 +465,18 @@ const styles = StyleSheet.create({
     width: width,
     justifyContent: 'flex-end',
     alignItems: 'center'
-  },
-  stickySectionText: {
+   },
+   stickySectionText: {
     color: 'white',
     fontSize: px(40),
     margin: px(20),
-  },
-
-
+   },
+   introShow:{
+    flexDirection: "row",
+    alignItems: 'center',
+    justifyContent:'center',
+    paddingTop: px(10)
+   },
 
 
    detailHead:{
@@ -472,6 +551,7 @@ const styles = StyleSheet.create({
     height: px(200),
    },
    actorView:{
+    width: px(170),
     flexDirection: 'column',
     alignItems:'center',
     marginRight: px(40)
@@ -492,7 +572,66 @@ const styles = StyleSheet.create({
    introFont1:{
     color:'white',
     fontSize: px(28),
-   }
+   },
+   photoImg:{
+    width:px(360),
+    height:px(230),
+    borderRadius: px(10),
+    marginRight: px(20)
+   },
    
-
+   View3:{
+    paddingRight: px(32),
+    marginBottom: px(30),
+   },
+   commentView:{
+ 
+    paddingLeft:px(20),
+    paddingRight: px(20),
+    position:'relative',
+    borderBottomWidth: px(1),
+    borderColor:'gray',
+    backgroundColor:'rgba(0,0,0,.2)',
+    borderRadius: px(5),
+   },
+   reviewerImage:{
+    marginTop: px(40),
+    marginLeft: px(15),
+    width:px(80),
+    height:px(80),
+    borderRadius: px(40),
+   },
+   reviewerName:{
+    position: 'absolute',
+    left:px(135),
+    top:px(42),
+    color:"white"
+   },
+   commentTime:{
+    position: 'absolute',
+    color:"white",
+    right:px(60),
+    top:px(82),
+    fontSize:px(25)
+   },
+   comment:{
+    color:"white",
+    margin: px(30),
+    marginBottom: px(80)
+   },
+   star:{
+    position:'absolute',
+    left:px(135),
+    top:px(80),
+   },
+   useful_count:{
+    color:"white",
+    fontSize:px(25),
+   },
+   view4:{
+    position:'absolute',
+    flexDirection:'row',
+    left:px(550),
+    bottom:px(30)
+   }
 }); 

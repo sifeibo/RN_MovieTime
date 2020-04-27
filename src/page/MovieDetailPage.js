@@ -3,7 +3,8 @@ import React,{ Component } from 'react';
 
 import MovieDetail from '../common/MovieDetail'
 import DataStore from '../expand/localdb/DataStore'
-import LoveDao from '../expand/localdb/LoveDao'
+import BackPress from '../common/BackPress'
+import NavigationUtil from '../navigator/NavigationUtil'
 
 
 
@@ -14,13 +15,16 @@ const apikey='?apikey=0b2bdeda43b5688921839c8ecb20399b'
 class MovieDetailPage extends Component{
   constructor(props){
     super(props);
-    this.state = {
+    this.backPress = new BackPress({backPress: () => this.onBackPress()});
+    this.state = { 
       infromation: {}
     }
   }
   componentDidMount(){
+    this.backPress.componentDidMount();
     const {id} = this.props.navigation.state.params;
     this.loadData(id);
+    
   }
   // 获取详情数据
   loadData(id){
@@ -28,11 +32,20 @@ class MovieDetailPage extends Component{
     let url = URL + id + apikey
     dataStore.fetchData(url) 
     .then(data=>{
-      console.log(data.data.data)
+      // console.log(data.data.data)
       this.setState({
         infromation: data.data.data
       })
     })
+  }
+  // 卸载监听
+  componentWillUnmount(){
+    this.backPress.componentWillUnmount();
+  }
+  // 处理 Android 中的物理返回键
+  onBackPress(){
+    NavigationUtil.goBack(this.props.navigation);
+    return true;
   }
   render(){
     if (Object.keys(this.state.infromation).length!= 0){

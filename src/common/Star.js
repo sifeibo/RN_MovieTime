@@ -43,7 +43,7 @@ export default class Star extends Component{
          // 选中状态的星星的宽度
          const activeStarsWidth = (size + margin) * Math.floor(value2) + size * (value2 - Math.floor(value2));
         return(
-            <View style={styles.container}>
+            <View style={[styles.container,this.props.style]}>
                 <View style={styles.rate}>
                     <View style={[styles.stars, styles.active, { width: activeStarsWidth }]}>
                         {activeStars.map(item => item)}
