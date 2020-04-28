@@ -11,9 +11,9 @@ import {
 } from 'react-native';
 import NavigationBar from '../common/NavigationBar'
 import BackPress from '../common/BackPress'
-import Ionicons  from 'react-native-vector-icons/Ionicons'
+import EvilIcons  from 'react-native-vector-icons/EvilIcons'
+import FontAwesome5  from 'react-native-vector-icons/FontAwesome5'
 import axios from 'axios';
-import AsyncStorage from '@react-native-community/async-storage';  
 import {connect} from 'react-redux'
 
 import actions from '../action/index'   
@@ -26,17 +26,17 @@ class LoginPage extends Component{
     super(props);
     this.state={
       name: '',
-      password: ''
+      password: '',
     }
     this.backPress = new BackPress({backPress: () => this.onBackPress()});
   }
   getLeftButton(){
-    return (<TouchableOpacity style={{position: 'absolute',left: 20,width:50,height:50, justifyContent:'center'}} 
+    return (<TouchableOpacity style={{position: 'absolute',left: 15,width:50,height:50, justifyContent:'center'}} 
     onPress={() => {NavigationUtil.goBack(this.props.navigation)}}>
-      <Ionicons 
-      name = {'ios-arrow-back'}
+      <EvilIcons 
+      name = {'close'}
       size = {28}
-      style={{color: 'white'}}/>
+      style={{color: 'black'}}/>
    </TouchableOpacity>)
   }
   // 装载监听
@@ -190,23 +190,27 @@ class LoginPage extends Component{
   render(){
     let statusBar={
       backgroundColor: themeColor,
-      barStyle: 'light-content',
+      barStyle: 'dark-content',
       hidden: false,
     }
     let navigationBar = <NavigationBar
       statusBar = {statusBar}
-      style = {{backgroundColor: themeColor}}
+      style = {{backgroundColor: 'white'}}
       leftButton = {this.getLeftButton()}
     />
     return (
       <View style={styles.container}>
         {navigationBar}
         <View style={styles.loginView}>
-          <Text>欢迎登陆</Text>
-          <TextInput  placeholder="手机号/邮箱" onChangeText={name => this.setState({name})} value={this.state.name}/>
-          <TextInput  numberOfLines={1} placeholder="密码" secureTextEntry={true} onChangeText={password => this.setState({password})} value={this.state.password} />
-          <Button onPress={this.login.bind(this)} color={themeColor} title="登录"/>
-          <Button onPress={this.register.bind(this)} color={themeColor} title="注册"/>
+          <Text style={styles.title}>欢迎登陆</Text>
+          <TextInput style={styles.input1} placeholder="手机号/邮箱" onChangeText={name => this.setState({name})} value={this.state.name}/>
+          <TextInput style={styles.input2} numberOfLines={1} placeholder="密码" secureTextEntry={true} onChangeText={password => this.setState({password})} value={this.state.password} />
+          <View style={styles.Button}>
+            <Button  onPress={this.login.bind(this)} color={themeColor}  title="登录"/>
+          </View>
+          <View style={styles.Button}>
+            <Button onPress={this.register.bind(this)} color={themeColor}  title="注册"/>
+          </View>
         </View>
       </View>
     );
@@ -228,10 +232,33 @@ export default  connect(mapStateToProps,mapDispatchToProps)(LoginPage);
 const styles = StyleSheet.create({
     container:{
         flex: 1,
+        backgroundColor:'white'
     },
     loginView:{
       paddingLeft: px(32),
       paddingRight: px(32)
+    },
+    title:{
+      marginTop: px(80),
+      marginBottom: px(80),
+      textAlign: "center",
+      fontSize: px(50),
+      fontWeight:"bold"
+    },
+    Button:{
+      marginTop: px(20),
+    },
+    input1:{
+      borderWidth: px(1),
+      borderColor:'gray',
+      borderRadius: px(4),
+    },
+    input2:{
+      borderBottomWidth: px(1),
+      borderLeftWidth: px(1),
+      borderRightWidth: px(1),
+      borderColor:'gray',
+      borderRadius: px(4),
     }
 
 });

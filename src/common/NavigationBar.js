@@ -8,7 +8,7 @@ const NAV_BAR_HEIGHT_ANDROID = 50; //标题栏高度
 const STATUS_BAR_HEIGHT = 20; //状态栏高度
 // 设置状态栏所接受的属性
 const StatusBarShape = {
-    barStyle: PropTypes.oneOf(['light-content', 'default']),
+    barStyle: PropTypes.oneOf(['light-content', 'default','dark-content']),
     hidden: PropTypes.bool,
     backgroundColor: PropTypes.string,
     translucent:  PropTypes.bool,

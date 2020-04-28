@@ -23,6 +23,7 @@ class MovieDetailPage extends Component{
   componentDidMount(){
     this.backPress.componentDidMount();
     const {id} = this.props.navigation.state.params;
+    console.log(id)
     this.loadData(id);
     
   }

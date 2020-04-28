@@ -126,7 +126,7 @@ class HotItem extends React.Component{
         let pics = [];
         let len = photos.length;
         for(let i=0; i < 10; i++) {
-            if (i<=len){
+            if (i<len){
                 pics.push(
                     <Image
                     style={styles.photoImg}
@@ -218,9 +218,9 @@ class HotItem extends React.Component{
         // 背景
         config.renderBackground=()=>(
             <View key="background">
-            <Image source={{uri: data.photos[0].image,
-                            width: width,
-                            height: PARALLAX_HEADER_HEIGHT}}/>
+            <Image 
+                style={{ width: width,height: PARALLAX_HEADER_HEIGHT}}
+                source={{uri: data.photos[0].image}}/>
             <View style={{position: 'absolute',
                           top: 0,
                           width: width,
@@ -420,7 +420,7 @@ class HotItem extends React.Component{
                     </View>
 
 
-                    <Text style={styles.smallTitle1}>演职员</Text>
+                    <Text style={styles.smallTitle1}>演员</Text>
                     <ScrollView  showsHorizontalScrollIndicator={false} 
                     horizontal={true} 
                     style={styles.tagView1}>
