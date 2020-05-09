@@ -1,4 +1,6 @@
 import React from 'react';
+import {View} from 'react-native';
+import SplashScreen from 'react-native-splash-screen'
 import {NavigationActions} from 'react-navigation'
 import {connect} from 'react-redux'
 
@@ -6,6 +8,8 @@ import {connect} from 'react-redux'
 import NavigationUtil from '../navigator/NavigationUtil';
 import DynamicTabNavigator from '../navigator/DynamicTabNavigator'
 import BackPress from '../common/BackPress'
+import CustomTheme from '../page/CustomTheme';
+import actions from '../action'
 
 
 class HomePage extends React.Component{
@@ -16,6 +20,7 @@ class HomePage extends React.Component{
   // 装载监听
   componentDidMount(){
     this.backPress.componentDidMount();
+    SplashScreen.hide();
   }
   // 卸载监听
   componentWillUnmount(){
@@ -33,19 +38,35 @@ class HomePage extends React.Component{
     dispatch(NavigationActions.back());
     return true;
   }
-
+  renderCustomThemeView() {
+    const {customThemeViewVisible, onShowCustomThemeView} = this.props;
+    return (<CustomTheme
+        visible={customThemeViewVisible}
+        {...this.props}
+        onClose={() => onShowCustomThemeView(false)}
+    />)
+}
 
   render(){
     // 在加入底部导航栏之前 提取出Home页和子页面的导航
     NavigationUtil.navigation = this.props.navigation;
+    return <View style={{flex: 1}}>
+          <DynamicTabNavigator />
+          {this.renderCustomThemeView()}
+        </View>;
     
-    return <DynamicTabNavigator />
 }
 }
 
 // 订阅nav
-const mapStateToProps = state =>({
-  nav: state.nav
+const mapStateToProps = state => ({
+  nav: state.nav,
+  customThemeViewVisible: state.theme.customThemeViewVisible,
+  theme: state.theme.theme,
 });
 
-export default connect(mapStateToProps)(HomePage);
+const mapDispatchToProps = dispatch => ({
+  onShowCustomThemeView: (show) => dispatch(actions.onShowCustomThemeView(show)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

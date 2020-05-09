@@ -76,8 +76,8 @@ class LovePage extends React.Component{
     />
   }
   render(){
-    let statusBar={ backgroundColor: '#476', barStyle: 'light-content',hidden: false}
-    let navigationBar = <NavigationBar title={'我的收藏'} statusBar = {statusBar} style = {{backgroundColor: '#476'}} />
+    let statusBar={ backgroundColor: this.props.themeColor, barStyle: 'light-content',hidden: false}
+    let navigationBar = <NavigationBar title={'我的收藏'} statusBar = {statusBar} style = {{backgroundColor: this.props.themeColor}} />
     let items = this.state.items;
     return (
       <View style={styles.container}>
@@ -121,7 +121,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state =>({
   login: state.login,
-  collection: state.collection
+  collection: state.collection,
+  themeColor: state.theme.themeColor
 });
 const mapDispatchToProps = dispatch =>({
   onThemeChangeColor: themeColor=>dispatch(actions.onThemeChangeColor(themeColor))

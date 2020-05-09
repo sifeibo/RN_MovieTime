@@ -189,7 +189,7 @@ class LoginPage extends Component{
   }
   render(){
     let statusBar={
-      backgroundColor: themeColor,
+      backgroundColor: this.props.themeColor,
       barStyle: 'dark-content',
       hidden: false,
     }
@@ -206,10 +206,10 @@ class LoginPage extends Component{
           <TextInput style={styles.input1} placeholder="手机号/邮箱" onChangeText={name => this.setState({name})} value={this.state.name}/>
           <TextInput style={styles.input2} numberOfLines={1} placeholder="密码" secureTextEntry={true} onChangeText={password => this.setState({password})} value={this.state.password} />
           <View style={styles.Button}>
-            <Button  onPress={this.login.bind(this)} color={themeColor}  title="登录"/>
+            <Button  onPress={this.login.bind(this)} color={this.props.themeColor}  title="登录"/>
           </View>
           <View style={styles.Button}>
-            <Button onPress={this.register.bind(this)} color={themeColor}  title="注册"/>
+            <Button onPress={this.register.bind(this)} color={this.props.themeColor}  title="注册"/>
           </View>
         </View>
       </View>
@@ -220,6 +220,7 @@ class LoginPage extends Component{
 
 const mapStateToProps = state => ({
   login: state.login,
+  themeColor: state.theme.themeColor
 });
 
 const mapDispatchToProps = dispatch => ({

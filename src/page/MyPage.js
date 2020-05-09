@@ -13,9 +13,9 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import AntDesign from 'react-native-vector-icons/AntDesign'
 
 import {connect} from 'react-redux'
-import ViewUtil from '../util/ViewUtil';
 import NavigationUtil from '../navigator/NavigationUtil';
 import { px } from '../util/device';
+import actions from '../action/index'
 import AsyncStorage from '@react-native-community/async-storage'; 
     
 
@@ -26,7 +26,7 @@ class MyPage extends Component{
   userinfo(userInfo){
     console.log(userInfo)
     if(userInfo === null){
-      return (<TouchableOpacity style={styles.headView} onPress={()=>{NavigationUtil.movePage({},'LoginPage')}}>
+      return (<TouchableOpacity style={[styles.headView,{backgroundColor: this.props.themeColor}]} onPress={()=>{NavigationUtil.movePage({},'LoginPage')}}>
         {/* onPress={()=>{NavigationUtil.movePage({callback: (()=>{this.setState({userInfo: global.data.userInfo})})},'LoginPage')}}> */}
       <Image 
         style={styles.userImg}
@@ -49,14 +49,14 @@ class MyPage extends Component{
   }
   render(){
     let statusBar={
-      backgroundColor: '#476',
+      backgroundColor: this.props.themeColor,
       barStyle: 'light-content',
       hidden: false
     }
     let navigationBar = <NavigationBar
       title={'我的'}
       statusBar = {statusBar}
-      style = {{backgroundColor: '#476'}}
+      style = {{backgroundColor: this.props.themeColor}}
     />
     let userInfo = this.props.login.userInfo
     return (
@@ -66,20 +66,20 @@ class MyPage extends Component{
 
           <View  style={styles.bottomView}>
             <TouchableOpacity style={[styles.itemView]} onPress={()=>{NavigationUtil.movePage({},'DataStoreDemo')}}>
-              <MaterialCommunityIcons name={'star-face'} size={30} style={{color: '#476'}} />
+              <MaterialCommunityIcons name={'star-face'} size={30} style={{color: this.props.themeColor}} />
               <Text style={styles.itemFont}>我的收藏</Text>
               <Entypo name = {'chevron-small-right'} size = {25} style={{color: 'black', position:'absolute', right: 15,}}/>
             </TouchableOpacity>
           </View>
 
           <View  style={styles.bottomView}>
-            <TouchableOpacity style={styles.itemView}>
-              <Ionicons name={'ios-color-wand'} size={30} style={{color: '#476'}} />
+            <TouchableOpacity style={styles.itemView} onPress={()=>{this.props. onShowCustomThemeView(true)}}>
+              <Ionicons name={'ios-color-wand'} size={30} style={{color: this.props.themeColor}} />
               <Text style={styles.itemFont}>改变主题</Text>
               <Entypo name = {'chevron-small-right'} size = {25} style={{color: 'black', position:'absolute', right: 15,}}/>
             </TouchableOpacity>
             <TouchableOpacity style={styles.itemView}>
-              <MaterialCommunityIcons name={'update'} size={30} style={{color: '#476'}} />
+              <MaterialCommunityIcons name={'update'} size={30} style={{color: this.props.themeColor}} />
               <Text style={styles.itemFont}>版本更新</Text>
               <Entypo name = {'chevron-small-right'} size = {25} style={{color: 'black', position:'absolute', right: 15,}}/>
             </TouchableOpacity>
@@ -87,12 +87,12 @@ class MyPage extends Component{
 
           <View  style={styles.bottomView}>
             <TouchableOpacity style={styles.itemView}>
-              <AntDesign name={'github'} size={28} style={{color: '#476'}} />
+              <AntDesign name={'github'} size={28} style={{color: this.props.themeColor}} />
               <Text style={styles.itemFont}>项目地址</Text>
               <Entypo name = {'chevron-small-right'} size = {25} style={{color: 'black', position:'absolute', right: 15,}}/>
             </TouchableOpacity>
             <TouchableOpacity style={styles.itemView}>
-              <MaterialCommunityIcons name={'blogger'} size={30} style={{color: '#476'}} />
+              <MaterialCommunityIcons name={'blogger'} size={30} style={{color: this.props.themeColor}} />
               <Text style={styles.itemFont}>我的博客</Text>
               <Entypo name = {'chevron-small-right'} size = {25} style={{color: 'black', position:'absolute', right: 15,}}/>
             </TouchableOpacity>
@@ -110,7 +110,6 @@ const styles = StyleSheet.create({
     // 顶部用户信息
     headView:{
       height: px(210),
-      backgroundColor: '#476',
       flexDirection: 'row',
       alignItems: 'center',
       // borderColor: 'black',
@@ -164,6 +163,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   login: state.login,
+  themeColor: state.theme.themeColor
 });
-
-export default connect(mapStateToProps)(MyPage);
+const mapDispatchToProps = dispatch =>({
+  onShowCustomThemeView: (show) => dispatch(actions.onShowCustomThemeView(show))
+});
+export default connect(mapStateToProps,mapDispatchToProps)(MyPage);

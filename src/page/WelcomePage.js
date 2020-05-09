@@ -7,10 +7,12 @@ import {
 
 import NavigationUtil from '../navigator/NavigationUtil'
 import SplashScreen from 'react-native-splash-screen'
-
+import actions from "../action";
+import {connect} from "react-redux";
 
 class WelcomePage extends React.Component{
   componentDidMount(){
+    this.props.onThemeInit();
     // do stuff while splash screen is shown
         // After having done stuff (such as async tasks) hide the splash screen
     this.timer = setTimeout(()=>{
@@ -25,11 +27,7 @@ class WelcomePage extends React.Component{
     this.timer && clearTimeout(this.timer);
   }
   render(){
-    return (
-      <View style={styles.container}>
-          <Text style={styles.welcome}>WelcomePage</Text>
-      </View>
-    );
+    return null;
   }
 };
 
@@ -47,4 +45,8 @@ const styles = StyleSheet.create({
     }
 });
 
-export default WelcomePage;
+const mapDispatchToProps = dispatch => ({
+  onThemeInit: () => dispatch(actions.onThemeInit()),
+});
+
+export default connect(null, mapDispatchToProps)(WelcomePage);

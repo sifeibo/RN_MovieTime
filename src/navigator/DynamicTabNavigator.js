@@ -117,21 +117,22 @@ class DynamicTabNavigator extends React.Component{
         console.disableYellowBox = true;
     }
     _tabNavigator(){
+      if(this.tabNavigator){
+        return this.tabNavigator;
+      }
         const {HotPage, LovePage,TrendingPage, MyPage,RootPage} = TABS;
         // 这里就可以根据需要显示想要显示的tab 其他可以隐藏
         const tabs = {HotPage, LovePage, MyPage}
         HotPage.navigationOptions.tabBarLabel = '榜单'; //动态配置属性
         // 如果存在就不要重新创建
-        if(!this.tabNavigator){
-            this.tabNavigator =createAppContainer(createBottomTabNavigator(
+        
+        return this.tabNavigator =createAppContainer(createBottomTabNavigator(
                 tabs,{
                     tabBarComponent: props=>{
                       return <TabBarComponent themeColor={this.props.themeColor} {...props}/>
                     }
                 }))
         }
-        return this.tabNavigator;
-      }
       render(){
         const Tab = this._tabNavigator();
         return <Tab />

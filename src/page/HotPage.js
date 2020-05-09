@@ -39,7 +39,7 @@ class HotPage extends React.Component{
     super(props);
     this.topTabNames =  ['Top250','北美票房榜','新片榜','口碑榜','热映', '即将上映']
   }
-  _topTabNavigator(){
+  _topTabNavigator(themeColor){
     const topTabs={};
     this.topTabNames.forEach((item, index)=>{
       topTabs['topTab'+index]={
@@ -51,7 +51,7 @@ class HotPage extends React.Component{
         }
       }
     })
-    if(!this.tabNavigator){
+    // if(!this.tabNavigator){
       this.tabNavigator = createAppContainer(createMaterialTopTabNavigator(topTabs,{
         lazy: true, //延迟加载
         tabBarOptions:{
@@ -59,26 +59,26 @@ class HotPage extends React.Component{
           upperCaseLabel: false, // 是否使用标签大写
           scrollEnabled: true, // 是否支持选项卡滚动
           style:{
-            backgroundColor: '#476'
+            backgroundColor: themeColor
           },
           indicatorStyle: styles.indicatorStyle, // 标签指示器样式
           labelStyle: styles.labelStyle, // 文字的样式
         }
       }));
-    }
+    // }
     return this.tabNavigator;
   }
   render(){
-    const TopTabNavigator = this._topTabNavigator();
+    const TopTabNavigator = this._topTabNavigator(this.props.themeColor);
     let statusBar={
-      backgroundColor: '#476',
+      backgroundColor: this.props.themeColor,
       barStyle: 'light-content',
       hidden: false
     }
     let navigationBar = <NavigationBar
       statusBar = {statusBar}
       title = {'榜单'}
-      style = {{backgroundColor: '#476'}}
+      style = {{backgroundColor: this.props.themeColor}}
     />
     return (
    
@@ -162,6 +162,7 @@ class HotTab extends React.Component{
   // 电影单个列表引入
   renderItem({item}){    
     return <HotItem 
+        key={item.id}
         item={item}
         onSelect={()=>{
           NavigationUtil.movePage({
@@ -193,11 +194,11 @@ class HotTab extends React.Component{
           refreshControl={
             <RefreshControl
               title={'Loading'}
-              titleColor={'#476'}
+              titleColor={this.props.themeColor}
               colors = {['#476']}
               refreshing = {store.isLoading}
               onRefresh={()=>this.loadData()}
-              tintColor={'#476'}
+              tintColor={this.props.themeColor}
             />
           }
           ListFooterComponent = {() => this.showIndicator()}
@@ -223,7 +224,7 @@ class HotTab extends React.Component{
 };
 
 const mapStateToProps = state =>({
-  hot: state.hot
+  hot: state.hot,
 })
 const mapDispatchToProps = dispatch =>({
   onLoadHotData: (storeName, url)=>dispatch(actions.onLoadHotData(storeName, url)),
@@ -268,4 +269,7 @@ const styles = StyleSheet.create({
     }
 });
 
-export default HotPage;
+const mapStateToProps1 = state =>({
+  themeColor: state.theme.themeColor
+})
+export default connect(mapStateToProps1)(HotPage);

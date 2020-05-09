@@ -6,6 +6,7 @@ export default {
     // 主题
     THEME_CHANGECOLOR:'THEME_CHANGECOLOR',
     THEME_INIT:'THEME_INIT',
+    SHOW_THEME_VIEW:'SHOW_THEME_VIEW',
 
     // HotPage数据加载
     HOT_REFRESH: 'HOT_REFRESH',

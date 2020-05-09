@@ -394,8 +394,8 @@ class HotItem extends React.Component{
         return (
             <View style={styles.container}>
                 <ParallaxScrollView
-                backgroundColor="#476"
-                contentBackgroundColor="#476"
+                backgroundColor={this.props.themeColor}
+                contentBackgroundColor={this.props.themeColor}
                 parallaxHeaderHeight={PARALLAX_HEADER_HEIGHT}
                 stickyHeaderHeight={STICKY_HEADER_HEIGHT}
                 {...renderConfig}
@@ -448,6 +448,7 @@ class HotItem extends React.Component{
 
 const mapStateToProps = state => ({
     login: state.login,
+    themeColor: state.theme.themeColor
 });
 
 const mapDispatchToProps = dispatch =>({
