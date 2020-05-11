@@ -19,7 +19,6 @@ export default class ThemeDao {
                     this.save(ThemeFlags.Default);
                     result = ThemeFlags.Default;
                 }
-                console.log(result)
                 resolve(ThemeFactory.createTheme(result))
             });
         });
