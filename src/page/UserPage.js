@@ -96,14 +96,14 @@ class UserPage extends Component{
 
   render(){
     let statusBar={
-      backgroundColor: themeColor,
+      backgroundColor: this.props.themeColor,
       barStyle: 'light-content',
       hidden: false,
     }
     let navigationBar = <NavigationBar
       statusBar = {statusBar}
       titleView = {<Text ellipsizeMode='tail' numberOfLines={1} style={{color: 'white', fontSize: 20}}>编辑资料</Text>}
-      style = {{backgroundColor: themeColor}}
+      style = {{backgroundColor: this.props.themeColor}}
       leftButton = {this.getLeftButton()}
       rightButton = {this.getrightButton()}
     />
@@ -122,6 +122,7 @@ class UserPage extends Component{
 
 const mapStateToProps = state => ({
   login: state.login,
+  themeColor: state.theme.themeColor
 });
 
 const mapDispatchToProps = dispatch => ({

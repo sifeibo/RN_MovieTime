@@ -42,6 +42,7 @@ class LoginPage extends Component{
   // 装载监听
   componentDidMount(){
     this.backPress.componentDidMount();
+
   }
   // 卸载监听
   componentWillUnmount(){

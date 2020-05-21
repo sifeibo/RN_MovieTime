@@ -36,7 +36,7 @@ class MyPage extends Component{
       <Entypo name = {'chevron-small-right'} size = {35} style={{color: 'white', position:'absolute', right: 10, top:30}}/>
     </TouchableOpacity>
     )}else{
-      return(<TouchableOpacity style={styles.headView} onPress={()=>{NavigationUtil.movePage({},'UserPage')}}>
+      return(<TouchableOpacity style={[styles.headView,{backgroundColor: this.props.themeColor}]} onPress={()=>{NavigationUtil.movePage({},'UserPage')}}>
       <Image 
         style={styles.userImg}
         source={{uri: userInfo.userimg}}
@@ -73,7 +73,7 @@ class MyPage extends Component{
           </View>
 
           <View  style={styles.bottomView}>
-            <TouchableOpacity style={styles.itemView} onPress={()=>{this.props. onShowCustomThemeView(true)}}>
+            <TouchableOpacity style={styles.itemView} onPress={()=>{this.props.onShowCustomThemeView(true)}}>
               <Ionicons name={'ios-color-wand'} size={30} style={{color: this.props.themeColor}} />
               <Text style={styles.itemFont}>改变主题</Text>
               <Entypo name = {'chevron-small-right'} size = {25} style={{color: 'black', position:'absolute', right: 15,}}/>
