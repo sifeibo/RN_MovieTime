@@ -1,37 +1,59 @@
-# RN电影推荐项目
+# RN_MovieTime
 
-#### 介绍
-使用React Native开发，整合了redux以及navigation
+## 介绍
+使用React Native开发的仿豆瓣APP，集成了Redux以及React Navigation4.0
 
-#### 软件架构
-软件架构说明
+本项目是我的毕业设计，由于没有mac电脑（ps：穷逼落泪），只适配了安卓端！！！
+
+## 软件结构
+
+主要代码都在`src`目录下
+
+```cmd
+├─action      // 项目中所有的action
+│  ├─collection
+│  ├─hot
+│  ├─login
+│  └─theme
+├─common      // 一些小组件
+├─expand   
+│  └─localdb  // 数据相关的模块
+├─navigator   // 导航相关模块
+├─page        // 所有页面
+├─reducer     // 项目中所有的reducer
+│  ├─collection
+│  ├─hot
+│  ├─login
+│  └─theme
+├─res         // 一些公共参数，工厂类等
+├─store       // redux的store
+└─util        // 工具类
+```
 
 
-#### 安装教程
+## 安装教程
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1.  先确保你已安装好了React Native 所需的依赖环境
+2.  在根目录下执行 `npm install`
+3.  在执行 `react-native run-android`
 
-#### 使用说明
+## 部分界面展示
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+<figure>
+<img src="https://gitee.com/kuanglangsheng/imgAreas/raw/master/Screenshot_2020-05-11-19-48-00-821_com.movietime.jpg" style="zoom:25%;" />
+<img src="https://gitee.com/kuanglangsheng/imgAreas/raw/master/Screenshot_2020-05-11-19-48-23-541_com.movietime.jpg" style="zoom:25%;" />
+<img src="https://gitee.com/kuanglangsheng/imgAreas/raw/master/Screenshot_2020-05-11-19-32-00-754_com.movietime.jpg" style="zoom:25%;" />
+<img src="https://gitee.com/kuanglangsheng/imgAreas/raw/master/Screenshot_2020-05-11-19-42-03-956_com.movietime.jpg" style="zoom:25%;" />
+</figure>
 
 
-#### 码云特技
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5.  码云官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+## 说明
+
+此程序仅供学习参考，喜欢就动手点个star吧o(∩_∩)o
+
+需要后台和数据库的童鞋可以提个issue问我要，后台采用的是Django+mysql
+
+## 联系方式
+
+可以在我的[博客](https://blog.csdn.net/qq_42002651/category_9556687.html)留言，博客里也会有部分代码解析
