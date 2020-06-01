@@ -40,11 +40,13 @@
 ## 部分界面展示
 
 <figure>
-<img src="https://gitee.com/kuanglangsheng/imgAreas/raw/master/Screenshot_2020-05-11-19-48-00-821_com.movietime.jpg" style="zoom:25%;" />
-<img src="https://gitee.com/kuanglangsheng/imgAreas/raw/master/Screenshot_2020-05-11-19-48-23-541_com.movietime.jpg" style="zoom:25%;" />
-<img src="https://gitee.com/kuanglangsheng/imgAreas/raw/master/Screenshot_2020-05-11-19-32-00-754_com.movietime.jpg" style="zoom:25%;" />
-<img src="https://gitee.com/kuanglangsheng/imgAreas/raw/master/Screenshot_2020-05-11-19-42-03-956_com.movietime.jpg" style="zoom:25%;" />
+<img src="https://s1.ax1x.com/2020/06/01/t3xmv9.md.png" style="zoom:25%;" />
+<img src="https://s1.ax1x.com/2020/06/01/t3xtvd.md.jpg" style="zoom:25%;" />
+<img src="https://s1.ax1x.com/2020/06/01/t3x0VP.md.jpg" style="zoom:25%;" />
+<img src="https://s1.ax1x.com/2020/06/01/t3xD58.md.jpg" style="zoom:25%;" />
 </figure>
+
+
 
 
 
