@@ -17,7 +17,7 @@ class HomePage extends React.Component{
     super(props);
     this.backPress = new BackPress({backPress: this.onBackPress()});
   }
-  // 装载监听
+  // 装载监听  
   componentDidMount(){
     this.backPress.componentDidMount();
     SplashScreen.hide();
